@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### upload ###
+!upload/
+upload/*
+!upload/default.png
