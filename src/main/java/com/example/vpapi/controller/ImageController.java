@@ -48,7 +48,7 @@ public class ImageController {
             throw new RuntimeException(e);
         }
 
-        return Map.of("RESULT", ino);
+        return Map.of("ino", ino);
     }
 
     @DeleteMapping("/{ino}")

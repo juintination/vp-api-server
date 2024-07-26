@@ -46,7 +46,7 @@ public class VideoController {
             throw new RuntimeException(e);
         }
 
-        return Map.of("RESULT", vno);
+        return Map.of("vno", vno);
     }
 
     @DeleteMapping("/{vno}")
