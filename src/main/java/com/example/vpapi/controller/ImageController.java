@@ -27,8 +27,9 @@ public class ImageController {
         return imageService.get(ino);
     }
 
-    @GetMapping("/view/{fileName}")
-    public ResponseEntity<Resource> viewFileGET(@PathVariable String fileName) {
+    @GetMapping("/view/{ino}")
+    public ResponseEntity<Resource> viewFileGET(@PathVariable("ino") Long ino) {
+        String fileName = read(ino).getFileName();
         return fileUtil.getFile(fileName);
     }
 
