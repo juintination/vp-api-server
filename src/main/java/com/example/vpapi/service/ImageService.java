@@ -33,6 +33,7 @@ public interface ImageService {
 
         return ImageDTO.builder()
                 .ino(image.getIno())
+                .regDate(image.getRegDate())
                 .fileName(image.getFileName())
                 .build();
     }
