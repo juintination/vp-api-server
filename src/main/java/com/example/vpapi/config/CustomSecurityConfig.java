@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import com.example.vpapi.security.handler.APILoginFailHandler;
+import com.example.vpapi.security.handler.APILoginSuccessHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +42,12 @@ public class CustomSecurityConfig {
         });
 
         http.csrf(AbstractHttpConfigurer::disable);
+
+        http.formLogin(config -> {
+            config.loginPage("/api/member/login");
+            config.successHandler(new APILoginSuccessHandler());
+            config.failureHandler(new APILoginFailHandler());
+        });
 
         return http.build();
     }
