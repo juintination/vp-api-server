@@ -17,9 +17,9 @@ import java.util.Map;
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         Gson gson = new Gson();
-        String jsonStr = gson.toJson(Map.of("error", "ERROR_ACCESSDENIED"));
+        String jsonStr = gson.toJson(Map.of("error", "ERROR_ACCESS_DENIED"));
         response.setContentType("application/json");
         response.setStatus(HttpStatus.FORBIDDEN.value());
         PrintWriter printWriter = response.getWriter();
