@@ -26,6 +26,7 @@ public interface MemberService {
                 .password(member.getPassword())
                 .nickname(member.getNickname())
                 .role(member.getMemberRole())
+                .regDate(member.getRegDate())
                 .build();
     }
 

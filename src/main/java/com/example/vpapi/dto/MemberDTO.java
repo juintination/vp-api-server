@@ -3,6 +3,8 @@ package com.example.vpapi.dto;
 import lombok.*;
 import com.example.vpapi.domain.MemberRole;
 
+import java.time.LocalDateTime;
+
 @Data
 @ToString
 @Builder
@@ -19,5 +21,7 @@ public class MemberDTO {
     private String nickname;
 
     private MemberRole role;
+
+    private LocalDateTime regDate;
 
 }
