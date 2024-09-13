@@ -22,6 +22,6 @@ public class MemberDTO {
 
     private MemberRole role;
 
-    private LocalDateTime regDate;
+    private LocalDateTime regDate, modDate;
 
 }

@@ -20,6 +20,6 @@ public class VideoDTO {
 
     private MultipartFile file;
 
-    private LocalDateTime regDate;
+    private LocalDateTime regDate, modDate;
 
 }

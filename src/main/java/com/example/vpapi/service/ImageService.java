@@ -34,6 +34,7 @@ public interface ImageService {
         return ImageDTO.builder()
                 .ino(image.getIno())
                 .regDate(image.getRegDate())
+                .modDate(image.getModDate())
                 .fileName(image.getFileName())
                 .build();
     }

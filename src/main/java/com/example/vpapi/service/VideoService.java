@@ -35,6 +35,7 @@ public interface VideoService {
                 .vno(video.getVno())
                 .fileName(video.getFileName())
                 .regDate(video.getRegDate())
+                .modDate(video.getModDate())
                 .build();
     }
 
