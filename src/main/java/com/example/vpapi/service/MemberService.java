@@ -19,6 +19,8 @@ public interface MemberService {
 
     void checkPassword(Long mno, String password);
 
+    Member dtoToEntity(MemberDTO memberDTO);
+
     default MemberDTO entityToDTO(Member member) {
         return MemberDTO.builder()
                 .mno(member.getMno())
