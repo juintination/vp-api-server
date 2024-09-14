@@ -94,6 +94,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member dtoToEntity(MemberDTO memberDTO) {
         return Member.builder()
+                .mno(memberDTO.getMno())
                 .email(memberDTO.getEmail())
                 .password(passwordEncoder.encode(memberDTO.getPassword()))
                 .nickname(memberDTO.getNickname())

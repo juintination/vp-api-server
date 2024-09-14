@@ -25,6 +25,7 @@ public interface MemberService {
         return MemberDTO.builder()
                 .mno(member.getMno())
                 .email(member.getEmail())
+                .password(member.getPassword())
                 .nickname(member.getNickname())
                 .role(member.getMemberRole())
                 .regDate(member.getRegDate())
