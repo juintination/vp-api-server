@@ -2,12 +2,16 @@ package com.example.vpapi.service;
 
 import com.example.vpapi.domain.Board;
 import com.example.vpapi.dto.BoardDTO;
+import com.example.vpapi.dto.PageRequestDTO;
+import com.example.vpapi.dto.PageResponseDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface BoardService {
 
     BoardDTO get(Long bno);
+
+    PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO);
 
     Long register(BoardDTO boardDTO);
 

@@ -1,11 +1,12 @@
 package com.example.vpapi.repository;
 
 import com.example.vpapi.domain.Board;
+import com.example.vpapi.repository.search.SearchBoardRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository {
 
     @Query("SELECT b, w, i, count(r), count(h) " +
             " FROM Board b LEFT JOIN b.writer w " +

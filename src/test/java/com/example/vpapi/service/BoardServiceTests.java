@@ -1,9 +1,7 @@
 package com.example.vpapi.service;
 
 import com.example.vpapi.domain.MemberRole;
-import com.example.vpapi.dto.BoardDTO;
-import com.example.vpapi.dto.ImageDTO;
-import com.example.vpapi.dto.MemberDTO;
+import com.example.vpapi.dto.*;
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Assertions;
@@ -82,6 +80,13 @@ public class BoardServiceTests {
         BoardDTO boardDTO = boardService.get(bno);
         Assertions.assertNotNull(boardDTO);
         log.info(boardDTO);
+    }
+
+    @Test
+    public void testGetList() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+        PageResponseDTO<BoardDTO> result = boardService.getList(pageRequestDTO);
+        log.info(result);
     }
 
     @Test

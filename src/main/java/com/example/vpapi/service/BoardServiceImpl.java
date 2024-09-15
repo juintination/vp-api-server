@@ -4,12 +4,17 @@ import com.example.vpapi.domain.Board;
 import com.example.vpapi.domain.Image;
 import com.example.vpapi.domain.Member;
 import com.example.vpapi.dto.BoardDTO;
+import com.example.vpapi.dto.PageRequestDTO;
+import com.example.vpapi.dto.PageResponseDTO;
 import com.example.vpapi.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -27,6 +32,23 @@ public class BoardServiceImpl implements BoardService {
         Optional<Board> result = boardRepository.findById(bno);
         Board board = result.orElseThrow();
         return entityToDTO(board);
+    }
+
+    @Override
+    public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
+
+        Page<Board> result = boardRepository.getPagedBoards(pageRequestDTO);
+
+        List<BoardDTO> dtoList = result
+                .get()
+                .map(this::entityToDTO).
+                collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .dtoList(dtoList)
+                .pageRequestDTO(pageRequestDTO)
+                .totalCount(result.getTotalElements())
+                .build();
     }
 
     @Override
