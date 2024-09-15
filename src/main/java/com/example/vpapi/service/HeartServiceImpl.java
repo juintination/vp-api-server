@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -31,8 +32,9 @@ public class HeartServiceImpl implements HeartService {
     }
 
     @Override
-    public List<Heart> getHeartsByBoard(Long bno) {
-        return heartRepository.getHeartsByBoardOrderByHno(Board.builder().bno(bno).build());
+    public List<HeartDTO> getHeartsByBoard(Long bno) {
+        List<Heart> result = heartRepository.getHeartsByBoardOrderByHno(Board.builder().bno(bno).build());
+        return result.stream().map(this::entityToDTO).collect(Collectors.toList());
     }
 
     @Override

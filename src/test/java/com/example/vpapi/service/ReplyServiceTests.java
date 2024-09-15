@@ -1,7 +1,6 @@
 package com.example.vpapi.service;
 
 import com.example.vpapi.domain.MemberRole;
-import com.example.vpapi.domain.Reply;
 import com.example.vpapi.dto.*;
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
@@ -117,7 +116,7 @@ public class ReplyServiceTests {
     @Test
     public void testGetListWithBoard() {
         Long rno = 1L;
-        List<Reply> replies = replyService.getRepliesByBoard(rno);
+        List<ReplyDTO> replies = replyService.getRepliesByBoard(rno);
         log.info("replies: " + replies);
 
         replies.forEach(Assertions::assertNotNull);
@@ -135,7 +134,7 @@ public class ReplyServiceTests {
         Long bno = 1L;
         boardService.remove(bno);
 
-        List<Reply> deletedReplies = replyService.getRepliesByBoard(bno);
+        List<ReplyDTO> deletedReplies = replyService.getRepliesByBoard(bno);
         Assertions.assertTrue(deletedReplies.isEmpty(), "Replies were not deleted");
     }
 }

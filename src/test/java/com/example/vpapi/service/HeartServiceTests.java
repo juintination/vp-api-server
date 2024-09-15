@@ -1,6 +1,5 @@
 package com.example.vpapi.service;
 
-import com.example.vpapi.domain.Heart;
 import com.example.vpapi.domain.MemberRole;
 import com.example.vpapi.dto.*;
 import com.github.javafaker.Faker;
@@ -116,7 +115,7 @@ public class HeartServiceTests {
     @Test
     public void testGetListWithBoard() {
         Long bno = 1L;
-        List<Heart> hearts = heartService.getHeartsByBoard(bno);
+        List<HeartDTO> hearts = heartService.getHeartsByBoard(bno);
         log.info("hearts: " + hearts);
 
         hearts.forEach(Assertions::assertNotNull);
@@ -134,7 +133,7 @@ public class HeartServiceTests {
         Long bno = 1L;
         boardService.remove(bno);
 
-        List<Heart> deletedHearts = heartService.getHeartsByBoard(bno);
+        List<HeartDTO> deletedHearts = heartService.getHeartsByBoard(bno);
         Assertions.assertTrue(deletedHearts.isEmpty(), "Hearts were not deleted");
     }
 }

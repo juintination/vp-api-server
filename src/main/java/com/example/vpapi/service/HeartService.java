@@ -11,7 +11,7 @@ public interface HeartService {
 
     HeartDTO get(Long hno);
 
-    List<Heart> getHeartsByBoard(Long bno);
+    List<HeartDTO> getHeartsByBoard(Long bno);
 
     Long register(HeartDTO heartDTO);
 

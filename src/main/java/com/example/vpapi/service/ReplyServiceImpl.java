@@ -1,7 +1,6 @@
 package com.example.vpapi.service;
 
 import com.example.vpapi.domain.Board;
-import com.example.vpapi.domain.Heart;
 import com.example.vpapi.domain.Member;
 import com.example.vpapi.domain.Reply;
 import com.example.vpapi.dto.ReplyDTO;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -32,8 +32,9 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public List<Reply> getRepliesByBoard(Long bno) {
-        return replyRepository.getRepliesByBoardOrderByRno(Board.builder().bno(bno).build());
+    public List<ReplyDTO> getRepliesByBoard(Long bno) {
+        List<Reply> result = replyRepository.getRepliesByBoardOrderByRno(Board.builder().bno(bno).build());
+        return result.stream().map(this::entityToDTO).collect(Collectors.toList());
     }
 
     @Override

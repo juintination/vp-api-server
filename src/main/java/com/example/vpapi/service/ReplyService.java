@@ -14,7 +14,7 @@ public interface ReplyService {
 
     ReplyDTO get(Long rno);
 
-    List<Reply> getRepliesByBoard(Long bno);
+    List<ReplyDTO> getRepliesByBoard(Long bno);
 
     Long register(ReplyDTO replyDTO);
 
