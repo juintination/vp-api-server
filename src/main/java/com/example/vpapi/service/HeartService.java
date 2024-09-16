@@ -23,6 +23,8 @@ public interface HeartService {
         return HeartDTO.builder()
                 .hno(heart.getHno())
                 .bno(heart.getBoard().getBno())
+                .writerId(heart.getBoard().getWriter().getMno())
+                .ino(heart.getBoard().getImage().getIno())
                 .memberId(heart.getMember().getMno())
                 .memberNickname(heart.getMember().getNickname())
                 .memberEmail(heart.getMember().getEmail())
