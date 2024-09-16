@@ -9,6 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"board", "member"})
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"board_id", "member_id"})
+})
 public class Heart extends BaseEntity {
 
     @Id

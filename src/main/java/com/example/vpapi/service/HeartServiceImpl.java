@@ -39,6 +39,12 @@ public class HeartServiceImpl implements HeartService {
 
     @Override
     public Long register(HeartDTO heartDTO) {
+
+        Optional<Heart> existingHeart = heartRepository.findByBoardBnoAndMemberMno(heartDTO.getBno(), heartDTO.getMemberId());
+        if (existingHeart.isPresent()) {
+            throw new IllegalArgumentException("Member has already left a heart on this board");
+        }
+
         Heart heart = dtoToEntity(heartDTO);
         Heart result = heartRepository.save(heart);
         return result.getHno();
