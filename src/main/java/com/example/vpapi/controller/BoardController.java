@@ -29,13 +29,13 @@ public class BoardController {
     }
 
     @PostMapping("/")
-    public Map<String, Long> register(@RequestBody BoardDTO dto) throws Exception {
+    public Map<String, Long> register(BoardDTO dto) throws Exception {
         long bno = boardService.register(dto);
         return Map.of("BNO", bno);
     }
 
     @PutMapping("/{bno}")
-    public Map<String, String> modify(@PathVariable("bno") Long bno, @RequestBody BoardDTO dto) throws Exception {
+    public Map<String, String> modify(@PathVariable("bno") Long bno, BoardDTO dto) throws Exception {
         dto.setBno(bno);
         boardService.modify(dto);
         return Map.of("RESULT", "SUCCESS");

@@ -28,13 +28,13 @@ public class ReplyController {
     }
 
     @PostMapping("/")
-    public Map<String, Long> register(@RequestBody ReplyDTO dto) throws Exception {
+    public Map<String, Long> register(ReplyDTO dto) throws Exception {
         long rno = replyService.register(dto);
         return Map.of("RNO", rno);
     }
 
     @PutMapping("/{rno}")
-    public Map<String, String> modify(@PathVariable("rno") Long rno, @RequestBody ReplyDTO dto) throws Exception {
+    public Map<String, String> modify(@PathVariable("rno") Long rno, ReplyDTO dto) throws Exception {
         dto.setRno(rno);
         replyService.modify(dto);
         return Map.of("RESULT", "SUCCESS");

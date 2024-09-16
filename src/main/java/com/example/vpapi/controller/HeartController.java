@@ -28,7 +28,7 @@ public class HeartController {
     }
 
     @PostMapping("/")
-    public Map<String, Long> register(@RequestBody HeartDTO dto) throws Exception {
+    public Map<String, Long> register(HeartDTO dto) throws Exception {
         long hno = heartService.register(dto);
         return Map.of("HNO", hno);
     }
