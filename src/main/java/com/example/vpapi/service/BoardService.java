@@ -1,6 +1,8 @@
 package com.example.vpapi.service;
 
 import com.example.vpapi.domain.Board;
+import com.example.vpapi.domain.Image;
+import com.example.vpapi.domain.Member;
 import com.example.vpapi.dto.BoardDTO;
 import com.example.vpapi.dto.PageRequestDTO;
 import com.example.vpapi.dto.PageResponseDTO;
@@ -21,15 +23,17 @@ public interface BoardService {
 
     Board dtoToEntity(BoardDTO boardDTO);
 
-    default BoardDTO entityToDTO(Board board) {
+    default BoardDTO entityToDTO(Board board, Member writer, Image image, int replyCount, int heartCount) {
         return BoardDTO.builder()
                 .bno(board.getBno())
                 .title(board.getTitle())
                 .content(board.getContent())
-                .ino(board.getImage() != null ? board.getImage().getIno() : null)
-                .writerId(board.getWriter().getMno())
-                .writerEmail(board.getWriter().getEmail())
-                .writerNickname(board.getWriter().getNickname())
+                .ino(image != null ? image.getIno() : null)
+                .writerId(writer.getMno())
+                .writerEmail(writer.getEmail())
+                .writerNickname(writer.getNickname())
+                .replyCount(replyCount)
+                .heartCount(heartCount)
                 .regDate(board.getRegDate())
                 .modDate(board.getModDate())
                 .build();

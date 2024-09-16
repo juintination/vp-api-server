@@ -29,20 +29,20 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardDTO get(Long bno) {
-        Optional<Board> result = boardRepository.findById(bno);
-        Board board = result.orElseThrow();
-        return entityToDTO(board);
+        Object result = boardRepository.getBoardByBno(bno);
+        Object[] arr = (Object[]) result;
+        return entityToDTO((Board) arr[0], (Member) arr[1], (Image) arr[2], ((Number) arr[3]).intValue(), ((Number) arr[4]).intValue());
     }
 
     @Override
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
 
-        Page<Board> result = boardRepository.getPagedBoards(pageRequestDTO);
+        Page<Object[]> result = boardRepository.getPagedBoards(pageRequestDTO);
 
         List<BoardDTO> dtoList = result
                 .get()
-                .map(this::entityToDTO).
-                collect(Collectors.toList());
+                .map(arr -> entityToDTO((Board) arr[0], (Member) arr[1], (Image) arr[2], ((Number) arr[3]).intValue(), ((Number) arr[4]).intValue()))
+                .collect(Collectors.toList());
 
         return PageResponseDTO.<BoardDTO>withAll()
                 .dtoList(dtoList)
