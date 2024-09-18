@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.example.vpapi.domain.MemberRole;
 import com.example.vpapi.dto.MemberDTO;
-import com.example.vpapi.util.MemberServiceException;
+import com.example.vpapi.util.CustomServiceException;
 
 @SpringBootTest
 @Log4j2
@@ -39,7 +39,7 @@ public class MemberServiceTests {
         Long mno = null;
         try {
             mno = memberService.register(memberDTO);
-        } catch (MemberServiceException e) {
+        } catch (CustomServiceException e) {
             if ("EMAIL_ALREADY_EXISTS".equals(e.getMessage())) {
                 memberDTO.setEmail(new Faker().internet().emailAddress());
                 mno = memberService.register(memberDTO);
@@ -78,7 +78,7 @@ public class MemberServiceTests {
         String email = "sample@example.com";
         Long mno = memberService.getMno(email);
         memberService.remove(mno);
-        Assertions.assertThrows(MemberServiceException.class, () -> memberService.get(mno));
+        Assertions.assertThrows(CustomServiceException.class, () -> memberService.get(mno));
     }
 
 }

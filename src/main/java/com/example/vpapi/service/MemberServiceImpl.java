@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.vpapi.domain.Member;
 import com.example.vpapi.dto.MemberDTO;
 import com.example.vpapi.repository.MemberRepository;
-import com.example.vpapi.util.MemberServiceException;
+import com.example.vpapi.util.CustomServiceException;
 
 import java.util.Optional;
 
@@ -23,21 +23,21 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO get(Long mno) {
         return memberRepository.findById(mno)
                 .map(this::entityToDTO)
-                .orElseThrow(() -> new MemberServiceException("NOT_EXIST_MEMBER"));
+                .orElseThrow(() -> new CustomServiceException("NOT_EXIST_MEMBER"));
     }
 
     @Override
     public Long getMno(String email) {
         Optional<Member> result = Optional.ofNullable(memberRepository.findByEmail(email));
-        Member member = result.orElseThrow(() -> new MemberServiceException("NO_EMAIL_EXISTS"));
+        Member member = result.orElseThrow(() -> new CustomServiceException("NO_EMAIL_EXISTS"));
         return member.getMno();
     }
 
     @Override
-    public Long register(MemberDTO memberDTO) throws MemberServiceException {
+    public Long register(MemberDTO memberDTO) throws CustomServiceException {
 
         if (memberRepository.existsByEmail(memberDTO.getEmail())) {
-            throw new MemberServiceException("EMAIL_ALREADY_EXISTS");
+            throw new CustomServiceException("EMAIL_ALREADY_EXISTS");
         }
 
         Member member = memberRepository.save(dtoToEntity(memberDTO));
@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void modify(MemberDTO memberDTO) throws MemberServiceException {
+    public void modify(MemberDTO memberDTO) throws CustomServiceException {
         Optional<Member> result = memberRepository.findById(memberDTO.getMno());
         Member member = result.orElseThrow();
 
@@ -53,12 +53,12 @@ public class MemberServiceImpl implements MemberService {
 
         if (memberDTO.getEmail() != null && !memberDTO.getEmail().isEmpty()) {
             if (!member.getEmail().equals(memberDTO.getEmail()) && memberRepository.existsByEmail(memberDTO.getEmail())) {
-                throw new MemberServiceException("EMAIL_ALREADY_EXISTS");
+                throw new CustomServiceException("EMAIL_ALREADY_EXISTS");
             }
             try {
                 member.changeEmail(memberDTO.getEmail());
             } catch (IllegalArgumentException e) {
-                throw new MemberServiceException("INVALID_EMAIL");
+                throw new CustomServiceException("INVALID_EMAIL");
             }
         }
 
@@ -77,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
     public void remove(Long mno) {
 
         if (!memberRepository.existsById(mno)) {
-            throw new MemberServiceException("NOT_EXIST_MEMBER");
+            throw new CustomServiceException("NOT_EXIST_MEMBER");
         }
 
         memberRepository.deleteById(mno);
@@ -85,9 +85,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void checkPassword(Long mno, String password) {
-        Member member = memberRepository.findById(mno).orElseThrow(() -> new MemberServiceException("NOT_EXIST_MEMBER"));
+        Member member = memberRepository.findById(mno).orElseThrow(() -> new CustomServiceException("NOT_EXIST_MEMBER"));
         if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new MemberServiceException("INVALID_PASSWORD");
+            throw new CustomServiceException("INVALID_PASSWORD");
         }
     }
 

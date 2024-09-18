@@ -1,5 +1,6 @@
 package com.example.vpapi.service;
 
+import com.example.vpapi.util.CustomServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +24,7 @@ public class ConvertServiceImpl implements ConvertService {
         try {
 
             if (fileResource == null) {
-                return ResponseEntity.badRequest().build();
+                throw new CustomServiceException("NO_FILE_PROVIDED");
             }
 
             RestTemplate restTemplate = new RestTemplate();
@@ -44,7 +45,7 @@ public class ConvertServiceImpl implements ConvertService {
             );
         } catch (Exception e) {
             log.error("Upload failed: {}", e.getMessage(), e);
-            return ResponseEntity.internalServerError().build();
+            throw new CustomServiceException("FILE_UPLOAD_FAILED");
         }
     }
 

@@ -7,6 +7,7 @@ import com.example.vpapi.dto.BoardDTO;
 import com.example.vpapi.dto.PageRequestDTO;
 import com.example.vpapi.dto.PageResponseDTO;
 import com.example.vpapi.repository.BoardRepository;
+import com.example.vpapi.util.CustomServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,9 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardDTO get(Long bno) {
         Object result = boardRepository.getBoardByBno(bno);
+        if (result == null) {
+            throw new CustomServiceException("NOT_EXIST_BOARD");
+        }
         Object[] arr = (Object[]) result;
         return entityToDTO((Board) arr[0], (Member) arr[1], (Image) arr[2], ((Number) arr[3]).intValue(), ((Number) arr[4]).intValue());
     }
@@ -53,6 +57,10 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Long register(BoardDTO boardDTO) {
+        Image image = imageService.dtoToEntity(imageService.get(boardDTO.getIno()));
+        if (boardRepository.existsByImage(image)) {
+            throw new CustomServiceException("IMAGE_ALREADY_ASSOCIATED");
+        }
         Board board = dtoToEntity(boardDTO);
         Board result = boardRepository.save(board);
         return result.getBno();
@@ -61,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void modify(BoardDTO boardDTO) {
         Optional<Board> result = boardRepository.findById(boardDTO.getBno());
-        Board board = result.orElseThrow();
+        Board board = result.orElseThrow(() -> new CustomServiceException("NOT_EXIST_BOARD"));
         board.changeTitle(boardDTO.getTitle());
         board.changeContent(boardDTO.getContent());
         boardRepository.save(board);
@@ -69,6 +77,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void remove(Long bno) {
+        if (!boardRepository.existsById(bno)) {
+            throw new CustomServiceException("NOT_EXIST_BOARD");
+        }
         boardRepository.deleteById(bno);
     }
 

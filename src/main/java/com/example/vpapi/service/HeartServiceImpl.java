@@ -5,6 +5,7 @@ import com.example.vpapi.domain.Heart;
 import com.example.vpapi.domain.Member;
 import com.example.vpapi.dto.HeartDTO;
 import com.example.vpapi.repository.HeartRepository;
+import com.example.vpapi.util.CustomServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class HeartServiceImpl implements HeartService {
     @Override
     public HeartDTO get(Long hno) {
         Optional<Heart> result = heartRepository.findById(hno);
-        Heart heart = result.orElseThrow();
+        Heart heart = result.orElseThrow(() -> new CustomServiceException("NOT_EXIST_HEART"));
         return entityToDTO(heart);
     }
 
@@ -42,7 +43,7 @@ public class HeartServiceImpl implements HeartService {
 
         Optional<Heart> existingHeart = heartRepository.findByBoardBnoAndMemberMno(heartDTO.getBno(), heartDTO.getMemberId());
         if (existingHeart.isPresent()) {
-            throw new IllegalArgumentException("Member has already left a heart on this board");
+            throw new CustomServiceException("HEART_ALREADY_EXISTS");
         }
 
         Heart heart = dtoToEntity(heartDTO);
@@ -52,6 +53,9 @@ public class HeartServiceImpl implements HeartService {
 
     @Override
     public void remove(Long hno) {
+        if (!heartRepository.existsById(hno)) {
+            throw new CustomServiceException("NOT_EXIST_HEART");
+        }
         heartRepository.deleteById(hno);
     }
 

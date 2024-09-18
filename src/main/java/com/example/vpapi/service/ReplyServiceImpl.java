@@ -5,6 +5,7 @@ import com.example.vpapi.domain.Member;
 import com.example.vpapi.domain.Reply;
 import com.example.vpapi.dto.ReplyDTO;
 import com.example.vpapi.repository.ReplyRepository;
+import com.example.vpapi.util.CustomServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public ReplyDTO get(Long rno) {
         Optional<Reply> result = replyRepository.findById(rno);
-        Reply reply = result.orElseThrow();
+        Reply reply = result.orElseThrow(() -> new CustomServiceException("NOT_EXIST_REPLY"));
         return entityToDTO(reply);
     }
 
@@ -47,13 +48,16 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public void modify(ReplyDTO replyDTO) {
         Optional<Reply> result = replyRepository.findById(replyDTO.getRno());
-        Reply reply = result.orElseThrow();
+        Reply reply = result.orElseThrow(() -> new CustomServiceException("NOT_EXIST_REPLY"));
         reply.changeContent(replyDTO.getContent());
         replyRepository.save(reply);
     }
 
     @Override
     public void remove(Long rno) {
+        if (!replyRepository.existsById(rno)) {
+            throw new CustomServiceException("NOT_EXIST_REPLY");
+        }
         replyRepository.deleteById(rno);
     }
 

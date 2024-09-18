@@ -1,6 +1,7 @@
 package com.example.vpapi.repository;
 
 import com.example.vpapi.domain.Board;
+import com.example.vpapi.domain.Image;
 import com.example.vpapi.repository.search.SearchBoardRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoard
             " WHERE b.bno = :bno" +
             " GROUP BY b, w, i")
     Object getBoardByBno(@Param("bno") Long bno);
+
+    boolean existsByImage(Image image);
 
 }
