@@ -6,5 +6,7 @@ import com.example.vpapi.dto.PageRequestDTO;
 public interface SearchBoardRepository {
 
     Page<Object[]> getPagedBoards(PageRequestDTO pageRequestDTO);
+
+    Page<Object[]> getPagedBoardsByWriterId(PageRequestDTO pageRequestDTO, Long writerId);
     
 }

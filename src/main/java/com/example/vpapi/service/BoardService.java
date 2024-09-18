@@ -13,7 +13,7 @@ public interface BoardService {
 
     BoardDTO get(Long bno);
 
-    PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO, Long writerId);
 
     Long register(BoardDTO boardDTO);
 

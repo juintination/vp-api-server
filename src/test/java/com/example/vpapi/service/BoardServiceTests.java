@@ -85,7 +85,15 @@ public class BoardServiceTests {
     @Test
     public void testGetList() {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
-        PageResponseDTO<BoardDTO> result = boardService.getList(pageRequestDTO);
+        PageResponseDTO<BoardDTO> result = boardService.getList(pageRequestDTO, null);
+        log.info(result);
+    }
+
+    @Test
+    public void testGetListByWriterId() {
+        Long writerId = 1L;
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+        PageResponseDTO<BoardDTO> result = boardService.getList(pageRequestDTO, writerId);
         log.info(result);
     }
 

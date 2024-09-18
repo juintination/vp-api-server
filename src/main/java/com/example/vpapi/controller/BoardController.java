@@ -25,7 +25,12 @@ public class BoardController {
 
     @GetMapping("/list")
     public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
-        return boardService.getList(pageRequestDTO);
+        return boardService.getList(pageRequestDTO, null);
+    }
+
+    @GetMapping("/list/member/{writerId}")
+    public PageResponseDTO<BoardDTO> listByWriterId(PageRequestDTO pageRequestDTO, @PathVariable("writerId") Long writerId) {
+        return boardService.getList(pageRequestDTO, writerId);
     }
 
     @PostMapping("/")

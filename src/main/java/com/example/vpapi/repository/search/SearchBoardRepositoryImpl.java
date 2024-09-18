@@ -19,11 +19,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         super(Board.class);
     }
 
-    @Override
-    public Page<Object[]> getPagedBoards(PageRequestDTO pageRequestDTO) {
-
-        log.info("getPagedBoards............");
-
+    private JPQLQuery<Tuple> getBaseQuery() {
         QBoard board = QBoard.board;
         QMember member = QMember.member;
         QImage image = QImage.image;
@@ -36,8 +32,15 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         query.leftJoin(reply).on(reply.board.eq(board));
         query.leftJoin(heart).on(heart.board.eq(board));
 
-        JPQLQuery<Tuple> tuple = query.select(board, member, image, reply.count(), heart.count());
-        tuple.groupBy(board);
+        return query.select(board, member, image, reply.count(), heart.count()).groupBy(board);
+    }
+
+    @Override
+    public Page<Object[]> getPagedBoards(PageRequestDTO pageRequestDTO) {
+
+        log.info("getPagedBoards............");
+
+        JPQLQuery<Tuple> tuple = getBaseQuery();
 
         Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1,
                 pageRequestDTO.getSize(),
@@ -57,6 +60,31 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 count
         );
 
+    }
+
+    @Override
+    public  Page<Object[]> getPagedBoardsByWriterId(PageRequestDTO pageRequestDTO, Long writerId) {
+
+        log.info("getPagedBoardsByWriterId............");
+
+        JPQLQuery<Tuple> tuple = getBaseQuery();
+        tuple.where(QMember.member.mno.eq(writerId));
+
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                Sort.by("bno").descending());
+
+        Objects.requireNonNull(this.getQuerydsl()).applyPagination(pageable, tuple);
+
+        List<Tuple> result = tuple.fetch();
+
+        long count = tuple.fetchCount();
+
+        return new PageImpl<>(
+                result.stream().map(Tuple::toArray).collect(Collectors.toList()),
+                pageable,
+                count
+        );
     }
 
 }

@@ -39,9 +39,14 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO, Long writerId) {
 
-        Page<Object[]> result = boardRepository.getPagedBoards(pageRequestDTO);
+        Page<Object[]> result;
+        if (writerId == null) {
+            result = boardRepository.getPagedBoards(pageRequestDTO);
+        } else {
+            result = boardRepository.getPagedBoardsByWriterId(pageRequestDTO, writerId);
+        }
 
         List<BoardDTO> dtoList = result
                 .get()
