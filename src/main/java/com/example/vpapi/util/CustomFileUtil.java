@@ -3,6 +3,7 @@ package com.example.vpapi.util;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -37,7 +38,7 @@ public class CustomFileUtil {
         log.info(uploadPath);
     }
 
-    public String saveFile(MultipartFile file) throws IOException {
+    public String saveFile(MultipartFile file) {
 
         if (file == null) {
             throw new NullPointerException();
@@ -45,7 +46,18 @@ public class CustomFileUtil {
 
         String savedName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path savePath = Paths.get(uploadPath, savedName);
-        Files.copy(file.getInputStream(), savePath);
+        try {
+            Files.copy(file.getInputStream(), savePath);
+            String contentType = file.getContentType();
+            if (contentType != null && contentType.startsWith("image")) {
+                Path thumbnailPath = Paths.get(uploadPath, "s_" + savedName);
+                Thumbnails.of(savePath.toFile())
+                        .size(200, 200)
+                        .toFile(thumbnailPath.toFile());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
 
         return savedName;
     }

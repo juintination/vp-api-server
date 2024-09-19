@@ -33,6 +33,12 @@ public class ImageController {
         return fileUtil.getFile(fileName);
     }
 
+    @GetMapping("/view/thumbnail/{ino}")
+    public ResponseEntity<Resource> viewThumbnailGET(@PathVariable("ino") Long ino) {
+        String fileName = "s_" + read(ino).getFileName();
+        return fileUtil.getFile(fileName);
+    }
+
     @PostMapping("/")
     public Map<String, Long> register(ImageDTO imageDTO) throws IOException {
         MultipartFile file = imageDTO.getFile();
