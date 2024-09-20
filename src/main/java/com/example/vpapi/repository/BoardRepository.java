@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository {
 
-    @Query("SELECT b, w, i, count(r), count(h) " +
+    @Query("SELECT b, w, i, count(distinct r), count(distinct h) " +
             " FROM Board b LEFT JOIN b.writer w " +
             " LEFT JOIN b.image i " +
             " LEFT OUTER JOIN Reply r ON r.board = b" +
