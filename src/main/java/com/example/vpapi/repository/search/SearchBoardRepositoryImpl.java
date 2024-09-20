@@ -2,6 +2,7 @@ package com.example.vpapi.repository.search;
 
 import com.example.vpapi.domain.*;
 import com.querydsl.core.Tuple;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.*;
@@ -29,10 +30,18 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         JPQLQuery<Board> query = from(board);
         query.leftJoin(member).on(board.writer.eq(member));
         query.leftJoin(image).on(image.eq(board.image));
-        query.leftJoin(reply).on(reply.board.eq(board));
-        query.leftJoin(heart).on(heart.board.eq(board));
 
-        return query.select(board, member, image, reply.count(), heart.count()).groupBy(board);
+        JPQLQuery<Long> replyCountSubQuery = JPAExpressions
+                .select(reply.count())
+                .from(reply)
+                .where(reply.board.eq(board));
+
+        JPQLQuery<Long> heartCountSubQuery = JPAExpressions
+                .select(heart.count())
+                .from(heart)
+                .where(heart.board.eq(board));
+
+        return query.select(board, member, image, replyCountSubQuery, heartCountSubQuery).groupBy(board);
     }
 
     @Override
