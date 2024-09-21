@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = {"boards", "replies", "hearts"})
 public class Member extends BaseEntity {
 
     @Id
