@@ -1,5 +1,7 @@
 package com.example.vpapi.service;
 
+import com.example.vpapi.domain.Image;
+import com.example.vpapi.domain.Member;
 import com.example.vpapi.domain.Video;
 import com.example.vpapi.dto.VideoDTO;
 import com.example.vpapi.repository.VideoRepository;
@@ -17,11 +19,16 @@ public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;
 
+    private final MemberService memberService;
+
     @Override
     public VideoDTO get(Long vno) {
-        Optional<Video> result = videoRepository.findById(vno);
-        Video video = result.orElseThrow(() -> new CustomServiceException("NOT_EXIST_VIDEO"));
-        return entityToDTO(video);
+        Object result = videoRepository.getVideoByVno(vno);
+        if (result == null) {
+            throw new CustomServiceException("NOT_EXIST_VIDEO");
+        }
+        Object[] arr = (Object[]) result;
+        return entityToDTO((Video) arr[0], (Member) arr[1]);
     }
 
     @Override
@@ -37,6 +44,22 @@ public class VideoServiceImpl implements VideoService {
             throw new CustomServiceException("NOT_EXIST_VIDEO");
         }
         videoRepository.deleteById(vno);
+    }
+
+    @Override
+    public Video dtoToEntity(VideoDTO videoDTO) {
+
+        if (videoDTO.getFileName() == null) {
+            throw new NullPointerException();
+        }
+
+        Member uploader = memberService.dtoToEntity(memberService.get(videoDTO.getUno()));
+
+        return Video.builder()
+                .vno(videoDTO.getVno())
+                .fileName(videoDTO.getFileName())
+                .uploader(uploader)
+                .build();
     }
 
 }

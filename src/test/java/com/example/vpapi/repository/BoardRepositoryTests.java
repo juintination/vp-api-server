@@ -56,15 +56,16 @@ public class BoardRepositoryTests {
     @BeforeEach
     public void testInsert() {
 
-        Image image = imageRepository.save(Image.builder()
-                .fileName(UUID.randomUUID() + "_" + "IMAGE.png")
-                .build());
-
         Member member = memberRepository.save(Member.builder()
                 .email(new Faker().internet().emailAddress())
                 .password(passwordEncoder.encode("1234"))
                 .nickname("SampleUser")
                 .memberRole(MemberRole.USER)
+                .build());
+
+        Image image = imageRepository.save(Image.builder()
+                .uploader(member)
+                .fileName(UUID.randomUUID() + "_" + "IMAGE.png")
                 .build());
 
         Board board = Board.builder()

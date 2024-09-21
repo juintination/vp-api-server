@@ -18,4 +18,8 @@ public class Image extends BaseEntity {
     @Column(nullable = false)
     private String fileName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uploader_id")
+    private Member uploader;
+
 }

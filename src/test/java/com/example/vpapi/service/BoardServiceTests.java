@@ -39,13 +39,6 @@ public class BoardServiceTests {
     @Test
     @BeforeEach
     public void testRegister() {
-        ImageDTO imageDTO = ImageDTO.builder()
-                .fileName(UUID.randomUUID() + "_" + "IMAGE0.png")
-                .build();
-
-        Long ino = imageService.register(imageDTO);
-        log.info(ino);
-        log.info(imageService.get(ino));
 
         MemberDTO memberDTO = MemberDTO.builder()
                 .email(new Faker().internet().emailAddress())
@@ -58,6 +51,13 @@ public class BoardServiceTests {
         Long mno = memberService.register(memberDTO);
         log.info(mno);
         log.info(memberService.get(mno));
+
+        ImageDTO imageDTO = ImageDTO.builder()
+                .uno(mno)
+                .fileName(UUID.randomUUID() + "_" + "IMAGE0.png")
+                .build();
+        Long ino = imageService.register(imageDTO);
+        log.info(ino);
 
         BoardDTO boardDTO = BoardDTO.builder()
                 .title("SampleTitle")
@@ -72,6 +72,7 @@ public class BoardServiceTests {
         Long bno = boardService.register(boardDTO);
         log.info(bno);
         log.info(boardService.get(bno));
+        
     }
 
     @Test

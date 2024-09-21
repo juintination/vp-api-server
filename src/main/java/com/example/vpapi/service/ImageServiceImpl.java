@@ -1,6 +1,7 @@
 package com.example.vpapi.service;
 
 import com.example.vpapi.domain.Image;
+import com.example.vpapi.domain.Member;
 import com.example.vpapi.dto.ImageDTO;
 import com.example.vpapi.repository.ImageRepository;
 import com.example.vpapi.util.CustomServiceException;
@@ -17,11 +18,16 @@ public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
 
+    private final MemberService memberService;
+
     @Override
     public ImageDTO get(Long ino) {
-        Optional<Image> result = imageRepository.findById(ino);
-        Image image = result.orElseThrow(() -> new CustomServiceException("NOT_EXIST_IMAGE"));
-        return entityToDTO(image);
+        Object result = imageRepository.getImageByIno(ino);
+        if (result == null) {
+            throw new CustomServiceException("NOT_EXIST_IMAGE");
+        }
+        Object[] arr = (Object[]) result;
+        return entityToDTO((Image) arr[0], (Member) arr[1]);
     }
 
     @Override
@@ -37,6 +43,22 @@ public class ImageServiceImpl implements ImageService {
             throw new CustomServiceException("NOT_EXIST_IMAGE");
         }
         imageRepository.deleteById(ino);
+    }
+
+    @Override
+    public Image dtoToEntity(ImageDTO imageDTO) {
+
+        if (imageDTO.getFileName() == null) {
+            throw new NullPointerException();
+        }
+
+        Member uploader = memberService.dtoToEntity(memberService.get(imageDTO.getUno()));
+
+        return Image.builder()
+                .ino(imageDTO.getIno())
+                .fileName(imageDTO.getFileName())
+                .uploader(uploader)
+                .build();
     }
 
 }

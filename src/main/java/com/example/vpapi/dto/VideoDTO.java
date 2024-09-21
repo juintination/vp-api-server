@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class VideoDTO {
 
-    private Long vno;
+    private Long vno, uno;
 
     private String fileName;
 

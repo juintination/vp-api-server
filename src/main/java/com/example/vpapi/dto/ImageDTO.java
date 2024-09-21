@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ImageDTO {
 
-    private Long ino;
+    private Long ino, uno;
 
     private String fileName;
 

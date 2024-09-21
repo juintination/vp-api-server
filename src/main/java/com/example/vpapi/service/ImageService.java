@@ -1,6 +1,7 @@
 package com.example.vpapi.service;
 
 import com.example.vpapi.domain.Image;
+import com.example.vpapi.domain.Member;
 import com.example.vpapi.dto.ImageDTO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,19 +14,9 @@ public interface ImageService {
 
     void remove(Long vno);
 
-    default Image dtoToEntity(ImageDTO imageDTO) {
+    Image dtoToEntity(ImageDTO imageDTO);
 
-        if (imageDTO.getFileName() == null) {
-            throw new NullPointerException();
-        }
-
-        return Image.builder()
-                .ino(imageDTO.getIno())
-                .fileName(imageDTO.getFileName())
-                .build();
-    }
-
-    default ImageDTO entityToDTO(Image image) {
+    default ImageDTO entityToDTO(Image image, Member uploader) {
 
         if (image.getFileName() == null) {
             throw new NullPointerException();
@@ -33,6 +24,7 @@ public interface ImageService {
 
         return ImageDTO.builder()
                 .ino(image.getIno())
+                .uno(uploader.getMno())
                 .regDate(image.getRegDate())
                 .modDate(image.getModDate())
                 .fileName(image.getFileName())

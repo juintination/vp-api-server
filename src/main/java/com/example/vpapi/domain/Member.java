@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"boards", "replies", "hearts"})
+@ToString(exclude = {"boards", "replies", "hearts", "images", "videos"})
 public class Member extends BaseEntity {
 
     @Id
@@ -36,6 +36,12 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Heart> hearts;
+
+    @OneToMany(mappedBy = "uploader", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
+
+    @OneToMany(mappedBy = "uploader", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Video> videos;
 
     public void changeRole(MemberRole memberRole) {
         this.memberRole = memberRole;

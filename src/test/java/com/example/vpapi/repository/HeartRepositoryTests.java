@@ -51,15 +51,16 @@ public class HeartRepositoryTests {
     @BeforeEach
     public void testInsert() {
 
-        Image image = imageRepository.save(Image.builder()
-                .fileName(UUID.randomUUID() + "_" + "IMAGE.png")
-                .build());
-
         Member writer = memberRepository.save(Member.builder()
                 .email(new Faker().internet().emailAddress())
                 .password(passwordEncoder.encode("1234"))
                 .nickname("SampleUser")
                 .memberRole(MemberRole.USER)
+                .build());
+
+        Image image = imageRepository.save(Image.builder()
+                .uploader(writer)
+                .fileName(UUID.randomUUID() + "_" + "IMAGE.png")
                 .build());
 
         Board board = Board.builder()

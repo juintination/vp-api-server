@@ -1,5 +1,6 @@
 package com.example.vpapi.service;
 
+import com.example.vpapi.domain.Member;
 import com.example.vpapi.domain.Video;
 import com.example.vpapi.dto.VideoDTO;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,19 +14,9 @@ public interface VideoService {
 
     void remove(Long vno);
 
-    default Video dtoToEntity(VideoDTO videoDTO) {
+    Video dtoToEntity(VideoDTO videoDTO);
 
-        if (videoDTO.getFileName() == null) {
-            throw new NullPointerException();
-        }
-
-        return Video.builder()
-                .vno(videoDTO.getVno())
-                .fileName(videoDTO.getFileName())
-                .build();
-    }
-
-    default VideoDTO entityToDTO(Video video) {
+    default VideoDTO entityToDTO(Video video, Member uploader) {
 
         if (video.getFileName() == null) {
             throw new NullPointerException();
@@ -33,6 +24,7 @@ public interface VideoService {
 
         return VideoDTO.builder()
                 .vno(video.getVno())
+                .uno(uploader.getMno())
                 .fileName(video.getFileName())
                 .regDate(video.getRegDate())
                 .modDate(video.getModDate())

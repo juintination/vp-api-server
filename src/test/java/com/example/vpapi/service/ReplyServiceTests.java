@@ -45,13 +45,6 @@ public class ReplyServiceTests {
     @Test
     @BeforeEach
     public void testRegister() {
-        ImageDTO imageDTO = ImageDTO.builder()
-                .fileName(UUID.randomUUID() + "_" + "IMAGE0.png")
-                .build();
-
-        Long ino = imageService.register(imageDTO);
-        log.info(ino);
-        log.info(imageService.get(ino));
 
         MemberDTO writerDTO = MemberDTO.builder()
                 .email(new Faker().internet().emailAddress())
@@ -64,6 +57,15 @@ public class ReplyServiceTests {
         Long wno = memberService.register(writerDTO);
         log.info(wno);
         log.info(memberService.get(wno));
+
+        ImageDTO imageDTO = ImageDTO.builder()
+                .uno(wno)
+                .fileName(UUID.randomUUID() + "_" + "IMAGE0.png")
+                .build();
+
+        Long ino = imageService.register(imageDTO);
+        log.info(ino);
+        log.info(imageService.get(ino));
 
         BoardDTO boardDTO = BoardDTO.builder()
                 .title("SampleTitle")
