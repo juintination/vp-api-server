@@ -96,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
         return Member.builder()
                 .mno(memberDTO.getMno())
                 .email(memberDTO.getEmail())
-                .password(passwordEncoder.encode(memberDTO.getPassword()))
+                .password(memberDTO.getPassword() != null ? passwordEncoder.encode(memberDTO.getPassword()) : null)
                 .nickname(memberDTO.getNickname())
                 .memberRole(memberDTO.getRole())
                 .build();
