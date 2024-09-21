@@ -4,6 +4,7 @@ import com.example.vpapi.domain.Board;
 import com.example.vpapi.domain.Image;
 import com.example.vpapi.domain.Member;
 import com.example.vpapi.dto.BoardDTO;
+import com.example.vpapi.dto.ImageDTO;
 import com.example.vpapi.dto.PageRequestDTO;
 import com.example.vpapi.dto.PageResponseDTO;
 import com.example.vpapi.repository.BoardRepository;
@@ -62,7 +63,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Long register(BoardDTO boardDTO) {
-        Image image = imageService.dtoToEntity(imageService.get(boardDTO.getIno()));
+        ImageDTO imageDTO = imageService.get(boardDTO.getIno());
+        if (!boardDTO.getWriterId().equals(imageDTO.getUno())) {
+            throw new CustomServiceException("WRITER_AND_IMAGE_UPLOADER_MISMATCH");
+        }
+
+        Image image = imageService.dtoToEntity(imageDTO);
         if (boardRepository.existsByImage(image)) {
             throw new CustomServiceException("IMAGE_ALREADY_ASSOCIATED");
         }
