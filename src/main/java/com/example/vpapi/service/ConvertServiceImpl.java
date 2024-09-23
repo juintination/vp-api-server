@@ -1,5 +1,9 @@
 package com.example.vpapi.service;
 
+import com.example.vpapi.dto.ImageDTO;
+import com.example.vpapi.dto.VideoDTO;
+import com.example.vpapi.util.CustomFileUtil;
+import com.example.vpapi.util.CustomMultipartFile;
 import com.example.vpapi.util.CustomServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,10 +21,15 @@ import org.springframework.web.client.RestTemplate;
 public class ConvertServiceImpl implements ConvertService {
 
     @Value("${convert.server.url}")
-    private String serverUrl;
+    private String convertServerUrl;
+
+    private final CustomFileUtil fileUtil;
 
     @Override
-    public ResponseEntity<Resource> uploadAndConvertFile(Resource fileResource) {
+    public ImageDTO uploadAndConvertFile(VideoDTO videoDTO) {
+        String fileName = videoDTO.getFileName();
+        ResponseEntity<Resource> fileResponse = fileUtil.getFile(fileName);
+        Resource fileResource = fileResponse.getBody();
         try {
 
             if (fileResource == null) {
@@ -37,12 +46,21 @@ public class ConvertServiceImpl implements ConvertService {
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-            return restTemplate.exchange(
-                    serverUrl,
+            ResponseEntity<Resource> responseEntity = restTemplate.exchange(
+                    convertServerUrl,
                     HttpMethod.POST,
                     requestEntity,
                     Resource.class
             );
+
+            CustomMultipartFile file = new CustomMultipartFile(responseEntity);
+            log.info("File uploaded: {}", file.getOriginalFilename());
+
+            return ImageDTO.builder()
+                    .fileName(file.getOriginalFilename())
+                    .file(file)
+                    .uno(videoDTO.getUno())
+                    .build();
         } catch (Exception e) {
             log.error("Upload failed: {}", e.getMessage(), e);
             throw new CustomServiceException("FILE_UPLOAD_FAILED");
