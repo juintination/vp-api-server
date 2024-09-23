@@ -56,8 +56,11 @@ public class ConvertServiceImpl implements ConvertService {
             CustomMultipartFile file = new CustomMultipartFile(responseEntity);
             log.info("File uploaded: {}", file.getOriginalFilename());
 
+            String uploadFileName = fileUtil.saveFile(file);
+            log.info("File converted: {}", uploadFileName);
+
             return ImageDTO.builder()
-                    .fileName(file.getOriginalFilename())
+                    .fileName(uploadFileName)
                     .file(file)
                     .uno(videoDTO.getUno())
                     .build();
