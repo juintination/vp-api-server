@@ -23,19 +23,19 @@ public class ImageController {
     private final CustomFileUtil fileUtil;
 
     @GetMapping("/{ino}")
-    public ImageDTO read(@PathVariable("ino") Long ino) {
+    public ImageDTO get(@PathVariable("ino") Long ino) {
         return imageService.get(ino);
     }
 
     @GetMapping("/view/{ino}")
     public ResponseEntity<Resource> viewFileGET(@PathVariable("ino") Long ino) {
-        String fileName = read(ino).getFileName();
+        String fileName = get(ino).getFileName();
         return fileUtil.getFile(fileName);
     }
 
     @GetMapping("/view/thumbnail/{ino}")
     public ResponseEntity<Resource> viewThumbnailGET(@PathVariable("ino") Long ino) {
-        String fileName = "s_" + read(ino).getFileName();
+        String fileName = "s_" + get(ino).getFileName();
         return fileUtil.getFile(fileName);
     }
 
@@ -58,9 +58,9 @@ public class ImageController {
     }
 
     @DeleteMapping("/{ino}")
-    public Map<String, String> remove(@PathVariable(name="ino") Long pno) {
-        String oldFileName = imageService.get(pno).getFileName();
-        imageService.remove(pno);
+    public Map<String, String> remove(@PathVariable(name="ino") Long ino) {
+        String oldFileName = imageService.get(ino).getFileName();
+        imageService.remove(ino);
         fileUtil.deleteFile(oldFileName);
         return Map.of("RESULT", "SUCCESS");
     }

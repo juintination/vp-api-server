@@ -23,7 +23,7 @@ public class VideoController {
     private final CustomFileUtil fileUtil;
 
     @GetMapping("/{vno}")
-    public VideoDTO read(@PathVariable("vno") Long vno) {
+    public VideoDTO get(@PathVariable("vno") Long vno) {
         return videoService.get(vno);
     }
 
@@ -50,9 +50,9 @@ public class VideoController {
     }
 
     @DeleteMapping("/{vno}")
-    public Map<String, String> remove(@PathVariable(name="vno") Long pno) {
-        String oldFileName = videoService.get(pno).getFileName();
-        videoService.remove(pno);
+    public Map<String, String> remove(@PathVariable(name="vno") Long vno) {
+        String oldFileName = videoService.get(vno).getFileName();
+        videoService.remove(vno);
         fileUtil.deleteFile(oldFileName);
         return Map.of("RESULT", "SUCCESS");
     }
