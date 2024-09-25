@@ -63,6 +63,17 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Long register(BoardDTO boardDTO) {
+
+        if (boardDTO.getIno() == null) {
+            throw new CustomServiceException("NULL_IMAGE_NUMBER");
+        } else if (boardDTO.getWriterId() == null) {
+            throw new CustomServiceException("NULL_WRITER_ID");
+        } else if (boardDTO.getWriterEmail() == null) {
+            throw new CustomServiceException("NULL_WRITER_EMAIL");
+        } else if (boardDTO.getWriterNickname() == null) {
+            throw new CustomServiceException("NULL_WRITER_NICKNAME");
+        }
+
         ImageDTO imageDTO = imageService.get(boardDTO.getIno());
         if (!boardDTO.getWriterId().equals(imageDTO.getUno())) {
             throw new CustomServiceException("WRITER_AND_IMAGE_UPLOADER_MISMATCH");
@@ -72,6 +83,15 @@ public class BoardServiceImpl implements BoardService {
         if (boardRepository.existsByImage(image)) {
             throw new CustomServiceException("IMAGE_ALREADY_ASSOCIATED");
         }
+
+        if (boardDTO.getTitle() == null && boardDTO.getContent() == null) {
+            throw new CustomServiceException("NULL_BOARD_INFO");
+        } else if (boardDTO.getTitle() == null) {
+            throw new CustomServiceException("NULL_BOARD_TITLE");
+        } else if (boardDTO.getContent() == null) {
+            throw new CustomServiceException("NULL_BOARD_CONTENT");
+        }
+
         Board board = dtoToEntity(boardDTO);
         Board result = boardRepository.save(board);
         return result.getBno();
