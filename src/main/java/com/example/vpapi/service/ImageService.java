@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ImageService {
 
-    ImageDTO get(Long ino);
+    ImageDTO get(Long vno);
 
     Long register(ImageDTO imageDTO);
 
-    void remove(Long ino);
+    void remove(Long vno);
 
     Image dtoToEntity(ImageDTO imageDTO);
 
