@@ -1,8 +1,5 @@
 package com.example.vpapi.service;
 
-import com.example.vpapi.domain.Board;
-import com.example.vpapi.domain.Heart;
-import com.example.vpapi.domain.Member;
 import com.example.vpapi.domain.Reply;
 import com.example.vpapi.dto.ReplyDTO;
 import org.springframework.transaction.annotation.Transactional;
