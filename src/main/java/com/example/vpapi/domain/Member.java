@@ -25,6 +25,12 @@ public class Member extends BaseEntity {
 
     private String nickname;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_image_id")
+    private Image profileImage;
+
+    private String profileInfo;
+
     @Builder.Default
     private MemberRole memberRole = MemberRole.USER;
 
