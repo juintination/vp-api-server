@@ -5,9 +5,7 @@ import com.example.vpapi.dto.ImageDTO;
 import com.example.vpapi.dto.MemberDTO;
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,6 +13,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @Log4j2
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ImageServiceTests {
 
     @Autowired
@@ -23,8 +22,8 @@ public class ImageServiceTests {
     @Autowired
     private MemberService memberService;
 
-    @Test
-    public void testIsNull() {
+    @BeforeAll
+    public void setup() {
         Assertions.assertNotNull(imageService, "BoardRepository should not be null");
         Assertions.assertNotNull(memberService, "MemberRepository should not be null");
 

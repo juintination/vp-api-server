@@ -2,9 +2,7 @@ package com.example.vpapi.service;
 
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.example.vpapi.domain.MemberRole;
@@ -13,14 +11,15 @@ import com.example.vpapi.util.CustomServiceException;
 
 @SpringBootTest
 @Log4j2
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MemberServiceTests {
 
     @Autowired
     private MemberService memberService;
 
-    @Test
-    public void testIsNull() {
-        Assertions.assertNotNull(memberService);
+    @BeforeAll
+    public void setup() {
+        Assertions.assertNotNull(memberService, "MemberRepository should not be null");
         log.info(memberService.getClass().getName());
     }
 

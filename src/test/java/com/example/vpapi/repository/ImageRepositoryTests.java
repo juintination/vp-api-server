@@ -5,9 +5,7 @@ import com.example.vpapi.domain.Member;
 import com.example.vpapi.domain.MemberRole;
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +17,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @Log4j2
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ImageRepositoryTests {
 
     @Autowired
@@ -30,8 +29,8 @@ public class ImageRepositoryTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Test
-    public void testIsNull() {
+    @BeforeAll
+    public void setup() {
         Assertions.assertNotNull(imageRepository, "ImageRepository should not be null");
         Assertions.assertNotNull(memberRepository, "MemberRepository should not be null");
 
