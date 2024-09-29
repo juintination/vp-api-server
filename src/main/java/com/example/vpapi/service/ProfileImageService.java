@@ -6,11 +6,7 @@ import com.example.vpapi.dto.ImageDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public interface ImageService {
-
-    ImageDTO get(Long ino);
-
-    Long register(ImageDTO imageDTO);
+public interface ProfileImageService {
 
     void remove(Long ino);
 
