@@ -32,13 +32,10 @@ public class ImageController {
     public Map<String, String> viewFileGET(@PathVariable("ino") Long ino) throws IOException {
         String fileName = get(ino).getFileName();
         Resource fileResource = fileUtil.getFile(fileName).getBody();
-        if (fileResource != null) {
-            byte[] fileContent = fileUtil.getFileContent(fileResource);
-            String base64FileContent = Base64.getEncoder().encodeToString(fileContent);
-            return Map.of("fileContent", base64FileContent);
-        } else {
-            return Map.of("fileContent", "");
-        }
+        assert fileResource != null; // "error": "NOT_EXIST_IMAGE"
+        byte[] fileContent = fileUtil.getFileContent(fileResource);
+        String base64FileContent = Base64.getEncoder().encodeToString(fileContent);
+        return Map.of("fileContent", base64FileContent);
     }
 
     @GetMapping("/view/thumbnail/{ino}")
