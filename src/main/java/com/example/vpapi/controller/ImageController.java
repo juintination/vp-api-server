@@ -39,9 +39,13 @@ public class ImageController {
     }
 
     @GetMapping("/view/thumbnail/{ino}")
-    public ResponseEntity<Resource> viewThumbnailGET(@PathVariable("ino") Long ino) {
+    public Map<String, String> viewThumbnailGET(@PathVariable("ino") Long ino) throws IOException {
         String fileName = "s_" + get(ino).getFileName();
-        return fileUtil.getFile(fileName);
+        Resource fileResource = fileUtil.getFile(fileName).getBody();
+        assert fileResource != null; // "error": "NOT_EXIST_IMAGE"
+        byte[] fileContent = fileUtil.getFileContent(fileResource);
+        String base64FileContent = Base64.getEncoder().encodeToString(fileContent);
+        return Map.of("fileContent", base64FileContent);
     }
 
     @PostMapping("/")
