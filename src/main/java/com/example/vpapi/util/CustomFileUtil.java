@@ -92,4 +92,9 @@ public class CustomFileUtil {
         }
     }
 
+    public byte[] getFileContent(Resource resource) throws IOException {
+        Path path = resource.getFile().toPath();
+        return Files.readAllBytes(path);
+    }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Map;
 
 @RestController
@@ -28,9 +29,16 @@ public class ImageController {
     }
 
     @GetMapping("/view/{ino}")
-    public ResponseEntity<Resource> viewFileGET(@PathVariable("ino") Long ino) {
+    public Map<String, String> viewFileGET(@PathVariable("ino") Long ino) throws IOException {
         String fileName = get(ino).getFileName();
-        return fileUtil.getFile(fileName);
+        Resource fileResource = fileUtil.getFile(fileName).getBody();
+        if (fileResource != null) {
+            byte[] fileContent = fileUtil.getFileContent(fileResource);
+            String base64FileContent = Base64.getEncoder().encodeToString(fileContent);
+            return Map.of("fileContent", base64FileContent);
+        } else {
+            return Map.of("fileContent", "");
+        }
     }
 
     @GetMapping("/view/thumbnail/{ino}")
