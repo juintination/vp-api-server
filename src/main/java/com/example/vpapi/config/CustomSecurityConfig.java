@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -22,7 +21,6 @@ import com.example.vpapi.security.handler.APILoginFailHandler;
 import com.example.vpapi.security.handler.APILoginSuccessHandler;
 import com.example.vpapi.security.filter.JWTCheckFilter;
 import com.example.vpapi.security.handler.CustomAccessDeniedHandler;
-import com.example.vpapi.security.entrypoint.CustomAuthenticationEntryPoint;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,31 +66,9 @@ public class CustomSecurityConfig {
             config.failureHandler(new APILoginFailHandler());
         });
 
-        http.authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                        .requestMatchers(HttpMethod.GET, "/api/boards/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/boards/**").hasAnyRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/boards/**").hasAnyRole("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/boards/**").hasAnyRole("USER")
-
-                        .requestMatchers(HttpMethod.GET, "/api/replies/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/replies/**").hasAnyRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/replies/**").hasAnyRole("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/replies/**").hasAnyRole("USER")
-
-                        .requestMatchers(HttpMethod.GET, "/api/hearts/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/hearts/**").hasAnyRole("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/hearts/**").hasAnyRole("USER")
-
-                        .requestMatchers("/api/images/view/**").permitAll()
-                        .requestMatchers("/api/images/view/thumbnail/**").permitAll()
-                        .anyRequest().authenticated()
-        );
-
         http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {
-            httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
             httpSecurityExceptionHandlingConfigurer.accessDeniedHandler(new CustomAccessDeniedHandler());
         });
 
