@@ -71,17 +71,17 @@ public class CustomSecurityConfig {
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                         .requestMatchers(HttpMethod.GET, "/api/boards/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/boards/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/boards/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/api/boards/**").hasAnyRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/boards/**").hasAnyRole("USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/boards/**").hasAnyRole("USER")
 
                         .requestMatchers(HttpMethod.GET, "/api/replies/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/replies/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/api/replies/**").hasAnyRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/api/replies/**").hasAnyRole("USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/replies/**").hasAnyRole("USER")
 
                         .requestMatchers(HttpMethod.GET, "/api/hearts/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/hearts/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/api/hearts/**").hasAnyRole("USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/hearts/**").hasAnyRole("USER")
 
                         .requestMatchers("/api/images/view/**").permitAll()
