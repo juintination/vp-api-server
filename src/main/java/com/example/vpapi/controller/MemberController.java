@@ -2,7 +2,6 @@ package com.example.vpapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.vpapi.dto.MemberDTO;
 import com.example.vpapi.service.MemberService;
@@ -19,7 +18,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/{mno}")
     public MemberDTO get(@PathVariable("mno") Long mno) {
         return memberService.get(mno);

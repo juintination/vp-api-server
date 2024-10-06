@@ -2,7 +2,6 @@ package com.example.vpapi.security.filter;
 
 import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +21,7 @@ import java.util.Map;
 public class JWTCheckFilter extends OncePerRequestFilter {
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
 
         if (request.getMethod().equals("OPTIONS")) {
             return true;
@@ -33,6 +32,14 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         if (path.startsWith("/api/member/")) {
             return true;
+        } else if ((path.startsWith("/api/boards/"))) {
+            return true;
+        } else if ((path.startsWith("/api/replies/"))) {
+            return true;
+        } else if (path.startsWith("/api/hearts/")) {
+            return true;
+        } else if (path.startsWith("/api/images/view/")) {
+            return true;
         } else if (path.equals("/") || path.equals("/docs")) {
             return true;
         }
@@ -41,7 +48,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
         log.info("-----------------JWTCheckFilter-----------------");
         String authHeaderStr = request.getHeader("Authorization");
         try {
