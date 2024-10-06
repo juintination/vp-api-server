@@ -2,6 +2,7 @@ package com.example.vpapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.vpapi.dto.MemberDTO;
 import com.example.vpapi.service.MemberService;
@@ -30,6 +31,7 @@ public class MemberController {
     }
 
     @PutMapping("/{mno}")
+    @PreAuthorize("#mno == authentication.principal.mno")
     public Map<String, String> modify(@PathVariable("mno") Long mno, @RequestBody MemberDTO dto) throws Exception {
         dto.setMno(mno);
         memberService.modify(dto);
@@ -37,6 +39,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{mno}")
+    @PreAuthorize("#mno == authentication.principal.mno")
     public Map<String, String> remove(@PathVariable("mno") Long mno) {
         memberService.remove(mno);
         return Map.of("RESULT", "SUCCESS");

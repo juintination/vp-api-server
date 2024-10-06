@@ -17,8 +17,11 @@ public class CustomUserDetails implements UserDetails {
 
     private Member member;
 
+    private Long mno;
+
     public CustomUserDetails(Member member) {
         this.member = member;
+        this.mno = member.getMno();
     }
 
     @Override
