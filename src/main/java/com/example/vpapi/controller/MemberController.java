@@ -45,7 +45,8 @@ public class MemberController {
         return Map.of("RESULT", "SUCCESS");
     }
 
-    @PostMapping("/checkPassword")
+    @PostMapping("/check/password")
+    @PreAuthorize("#dto.mno == authentication.principal.mno")
     public Map<String, String> checkPassword(@RequestBody MemberDTO dto) {
         memberService.checkPassword(dto.getMno(), dto.getPassword());
         return Map.of("RESULT", "SUCCESS");
