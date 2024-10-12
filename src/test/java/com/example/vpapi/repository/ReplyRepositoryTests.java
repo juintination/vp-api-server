@@ -33,6 +33,8 @@ public class ReplyRepositoryTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private final Faker faker = new Faker();
+
     @BeforeAll
     public void setup() {
         Assertions.assertNotNull(boardRepository, "BoardRepository should not be null");
@@ -55,9 +57,9 @@ public class ReplyRepositoryTests {
                 .build());
 
         Member writer = memberRepository.save(Member.builder()
-                .email(new Faker().internet().emailAddress())
-                .password(passwordEncoder.encode("1234"))
-                .nickname("SampleUser")
+                .email(faker.internet().emailAddress())
+                .password(passwordEncoder.encode(faker.internet().password()))
+                .nickname(faker.name().name())
                 .memberRole(MemberRole.USER)
                 .build());
 
@@ -71,9 +73,9 @@ public class ReplyRepositoryTests {
 
         for (int i = 0; i < 5; i++) {
             Member member = memberRepository.save(Member.builder()
-                    .email(new Faker().internet().emailAddress())
-                    .password(passwordEncoder.encode("1234"))
-                    .nickname("SampleUser" + i)
+                    .email(faker.internet().emailAddress())
+                    .password(passwordEncoder.encode(faker.internet().password()))
+                    .nickname(faker.name().name())
                     .memberRole(MemberRole.USER)
                     .build());
 

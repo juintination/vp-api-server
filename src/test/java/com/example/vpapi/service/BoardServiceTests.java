@@ -24,6 +24,8 @@ public class BoardServiceTests {
     @Autowired
     private ImageService imageService;
 
+    private final Faker faker = new Faker();
+
     @BeforeAll
     public void setup() {
         Assertions.assertNotNull(boardService, "BoardRepository should not be null");
@@ -40,9 +42,9 @@ public class BoardServiceTests {
     public void testRegister() {
 
         MemberDTO memberDTO = MemberDTO.builder()
-                .email(new Faker().internet().emailAddress())
-                .password("1234")
-                .nickname("SampleUser")
+                .email(faker.internet().emailAddress())
+                .password(faker.internet().password())
+                .nickname(faker.name().name())
                 .role(MemberRole.USER)
                 .build();
         log.info(memberDTO);

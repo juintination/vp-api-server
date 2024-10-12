@@ -17,6 +17,8 @@ public class MemberServiceTests {
     @Autowired
     private MemberService memberService;
 
+    private final Faker faker = new Faker();
+
     @BeforeAll
     public void setup() {
         Assertions.assertNotNull(memberService, "MemberRepository should not be null");
@@ -30,7 +32,7 @@ public class MemberServiceTests {
 
         MemberDTO memberDTO = MemberDTO.builder()
                 .email(email)
-                .password("1234")
+                .password(faker.internet().password())
                 .nickname("SampleUser")
                 .role(MemberRole.USER)
                 .build();
@@ -40,7 +42,8 @@ public class MemberServiceTests {
             mno = memberService.register(memberDTO);
         } catch (CustomServiceException e) {
             if ("EMAIL_ALREADY_EXISTS".equals(e.getMessage())) {
-                memberDTO.setEmail(new Faker().internet().emailAddress());
+                memberDTO.setEmail(faker.internet().emailAddress());
+                memberDTO.setNickname(faker.name().name());
                 mno = memberService.register(memberDTO);
             }
         }

@@ -22,6 +22,8 @@ public class ImageServiceTests {
     @Autowired
     private MemberService memberService;
 
+    private final Faker faker = new Faker();
+
     @BeforeAll
     public void setup() {
         Assertions.assertNotNull(imageService, "BoardRepository should not be null");
@@ -36,9 +38,9 @@ public class ImageServiceTests {
     public void testRegister() {
 
         MemberDTO uploaderDTO = MemberDTO.builder()
-                .email(new Faker().internet().emailAddress())
-                .password("1234")
-                .nickname("SampleUser")
+                .email(faker.internet().emailAddress())
+                .password(faker.internet().password())
+                .nickname(faker.name().name())
                 .role(MemberRole.USER)
                 .build();
         log.info(uploaderDTO);

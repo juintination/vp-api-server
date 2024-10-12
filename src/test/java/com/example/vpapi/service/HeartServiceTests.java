@@ -28,6 +28,8 @@ public class HeartServiceTests {
     @Autowired
     private HeartService heartService;
 
+    private final Faker faker = new Faker();
+
     @BeforeAll
     public void setup() {
         Assertions.assertNotNull(boardService, "BoardRepository should not be null");
@@ -46,9 +48,9 @@ public class HeartServiceTests {
     public void testRegister() {
 
         MemberDTO writerDTO = MemberDTO.builder()
-                .email(new Faker().internet().emailAddress())
-                .password("1234")
-                .nickname("SampleUser")
+                .email(faker.internet().emailAddress())
+                .password(faker.internet().password())
+                .nickname(faker.name().name())
                 .role(MemberRole.USER)
                 .build();
         log.info(writerDTO);
@@ -83,9 +85,9 @@ public class HeartServiceTests {
 
         for (int i = 0; i < 5; i++) {
             MemberDTO memberDTO = MemberDTO.builder()
-                    .email(new Faker().internet().emailAddress())
-                    .password("1234")
-                    .nickname("SampleUser" + i)
+                    .email(faker.internet().emailAddress())
+                    .password(faker.internet().password())
+                    .nickname(faker.name().name())
                     .role(MemberRole.USER)
                     .build();
 

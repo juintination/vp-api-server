@@ -29,6 +29,8 @@ public class VideoRepositoryTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private final Faker faker = new Faker();
+
     @BeforeAll
     public void setup() {
         Assertions.assertNotNull(videoRepository, "VideoRepository should not be null");
@@ -43,9 +45,9 @@ public class VideoRepositoryTests {
     public void testInsert() {
 
         Member uploader = memberRepository.save(Member.builder()
-                .email(new Faker().internet().emailAddress())
-                .password(passwordEncoder.encode("1234"))
-                .nickname("SampleUser")
+                .email(faker.internet().emailAddress())
+                .password(passwordEncoder.encode(faker.internet().password()))
+                .nickname(faker.name().name())
                 .memberRole(MemberRole.USER)
                 .build());
 
