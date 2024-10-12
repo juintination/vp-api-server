@@ -40,6 +40,10 @@ public class MemberServiceImpl implements MemberService {
             throw new CustomServiceException("EMAIL_ALREADY_EXISTS");
         }
 
+        if (memberRepository.existsByNickname(memberDTO.getNickname())) {
+            throw new CustomServiceException("NICKNAME_ALREADY_EXISTS");
+        }
+
         Member member = memberRepository.save(dtoToEntity(memberDTO));
         return member.getMno();
     }
@@ -60,6 +64,13 @@ public class MemberServiceImpl implements MemberService {
             } catch (IllegalArgumentException e) {
                 throw new CustomServiceException("INVALID_EMAIL");
             }
+        }
+
+        if (memberDTO.getNickname() != null && !memberDTO.getNickname().isEmpty()) {
+            if (!member.getNickname().equals(memberDTO.getNickname()) && memberRepository.existsByNickname(memberDTO.getNickname())) {
+                throw new CustomServiceException("NICKNAME_ALREADY_EXISTS");
+            }
+            member.changeNickname(memberDTO.getNickname());
         }
 
         if (memberDTO.getPassword() != null && !memberDTO.getPassword().isEmpty()) {

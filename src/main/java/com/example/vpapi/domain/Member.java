@@ -23,6 +23,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(unique = true)
     private String nickname;
 
     @Builder.Default
