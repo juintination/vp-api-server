@@ -18,11 +18,11 @@ public class Reply extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "replier_id")
+    @JoinColumn(name = "replier_id", nullable = false)
     private Member replier;
 
     public void changeContent(String content) {
