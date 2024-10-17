@@ -52,7 +52,7 @@ public class CustomFileUtil {
             if (contentType != null && contentType.startsWith("image")) {
                 Path thumbnailPath = Paths.get(uploadPath, "s_" + savedName);
                 Thumbnails.of(savePath.toFile())
-                        .size(200, 200)
+                        .size(800, 800)
                         .toFile(thumbnailPath.toFile());
             }
         } catch (IOException e) {
