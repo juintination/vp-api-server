@@ -6,6 +6,7 @@ import com.example.vpapi.dto.PageResponseDTO;
 import com.example.vpapi.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -34,12 +35,14 @@ public class BoardController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("#dto.writerId == authentication.principal.mno && #dto.writerEmail == authentication.principal.username")
     public Map<String, Long> register(BoardDTO dto) throws Exception {
         long bno = boardService.register(dto);
         return Map.of("BNO", bno);
     }
 
     @PutMapping("/{bno}")
+    @PreAuthorize("#dto.writerId == authentication.principal.mno && #dto.writerEmail == authentication.principal.username")
     public Map<String, String> modify(@PathVariable("bno") Long bno, BoardDTO dto) throws Exception {
         dto.setBno(bno);
         boardService.modify(dto);
