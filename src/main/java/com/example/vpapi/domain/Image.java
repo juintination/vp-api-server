@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@ToString
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"uploader"})
 public class Image extends BaseEntity {
 
     @Id
