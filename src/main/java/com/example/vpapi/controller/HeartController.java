@@ -4,6 +4,7 @@ import com.example.vpapi.dto.HeartDTO;
 import com.example.vpapi.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class HeartController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("#dto.memberId == authentication.principal.mno && #dto.memberEmail == authentication.principal.username")
     public Map<String, Long> register(HeartDTO dto) throws Exception {
         long hno = heartService.register(dto);
         return Map.of("HNO", hno);

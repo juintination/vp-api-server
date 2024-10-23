@@ -4,6 +4,7 @@ import com.example.vpapi.dto.ReplyDTO;
 import com.example.vpapi.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class ReplyController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("#dto.replierId == authentication.principal.mno && #dto.replierEmail == authentication.principal.username")
     public Map<String, Long> register(ReplyDTO dto) throws Exception {
         long rno = replyService.register(dto);
         return Map.of("RNO", rno);
     }
 
     @PutMapping("/{rno}")
+    @PreAuthorize("#dto.replierId == authentication.principal.mno && #dto.replierEmail == authentication.principal.username")
     public Map<String, String> modify(@PathVariable("rno") Long rno, ReplyDTO dto) throws Exception {
         dto.setRno(rno);
         replyService.modify(dto);
