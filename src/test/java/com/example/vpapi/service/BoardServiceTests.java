@@ -28,9 +28,9 @@ public class BoardServiceTests {
 
     @BeforeAll
     public void setup() {
-        Assertions.assertNotNull(boardService, "BoardRepository should not be null");
-        Assertions.assertNotNull(imageService, "ImageRepository should not be null");
-        Assertions.assertNotNull(memberService, "MemberRepository should not be null");
+        Assertions.assertNotNull(boardService, "BoardService should not be null");
+        Assertions.assertNotNull(imageService, "ImageService should not be null");
+        Assertions.assertNotNull(memberService, "MemberService should not be null");
 
         log.info(boardService.getClass().getName());
         log.info(imageService.getClass().getName());

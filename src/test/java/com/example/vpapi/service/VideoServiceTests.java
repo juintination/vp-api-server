@@ -26,8 +26,8 @@ public class VideoServiceTests {
 
     @BeforeAll
     public void setup() {
-        Assertions.assertNotNull(videoService, "BoardRepository should not be null");
-        Assertions.assertNotNull(memberService, "MemberRepository should not be null");
+        Assertions.assertNotNull(videoService, "BoardService should not be null");
+        Assertions.assertNotNull(memberService, "MemberService should not be null");
 
         log.info(videoService.getClass().getName());
         log.info(memberService.getClass().getName());
