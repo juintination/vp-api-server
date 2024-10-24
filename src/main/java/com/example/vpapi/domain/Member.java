@@ -26,6 +26,9 @@ public class Member extends BaseEntity {
     @Column(unique = true)
     private String nickname;
 
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ProfileImage profileImage;
+
     @Builder.Default
     private MemberRole memberRole = MemberRole.USER;
 
@@ -58,6 +61,10 @@ public class Member extends BaseEntity {
 
     public void changePassword(String password) {
         this.password = password;
+    }
+
+    public void removeProfileImageAssociation() {
+        this.profileImage = null;
     }
 
 }

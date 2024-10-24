@@ -1,6 +1,7 @@
 package com.example.vpapi.service;
 
 import com.example.vpapi.domain.Member;
+import com.example.vpapi.domain.ProfileImage;
 import com.example.vpapi.dto.MemberDTO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +22,13 @@ public interface MemberService {
 
     Member dtoToEntity(MemberDTO memberDTO);
 
-    default MemberDTO entityToDTO(Member member) {
+    default MemberDTO entityToDTO(Member member, ProfileImage profileImage) {
+        Long pino = profileImage != null ? profileImage.getPino() : null;
         return MemberDTO.builder()
                 .mno(member.getMno())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
+                .pino(pino)
                 .role(member.getMemberRole())
                 .regDate(member.getRegDate())
                 .modDate(member.getModDate())

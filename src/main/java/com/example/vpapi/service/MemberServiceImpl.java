@@ -1,5 +1,6 @@
 package com.example.vpapi.service;
 
+import com.example.vpapi.domain.ProfileImage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +22,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDTO get(Long mno) {
-        return memberRepository.findById(mno)
-                .map(this::entityToDTO)
-                .orElseThrow(() -> new CustomServiceException("NOT_EXIST_MEMBER"));
+        Object result = memberRepository.getMemberByMno(mno);
+        if (result == null) {
+            throw new CustomServiceException("NOT_EXIST_MEMBER");
+        }
+
+        Object[] arr = (Object[]) result;
+        return entityToDTO((Member) arr[0], (ProfileImage) arr[1]);
     }
 
     @Override

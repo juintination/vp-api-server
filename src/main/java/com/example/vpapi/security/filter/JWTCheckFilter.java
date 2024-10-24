@@ -37,6 +37,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         } else if (request.getMethod().equals("GET")) {
             if (path.startsWith("/api/member/")) {
                 return true;
+            } else if (path.startsWith("/api/profile/images/")) {
+                return true;
             } else if (path.startsWith("/api/boards/")) {
                 return true;
             } else if (path.startsWith("/api/replies/")) {

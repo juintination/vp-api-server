@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MemberDTO {
 
-    private Long mno;
+    private Long mno, pino;
 
     private String email;
 
