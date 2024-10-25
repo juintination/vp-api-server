@@ -1,7 +1,9 @@
-package com.example.vpapi.service;
+package com.example.vpapi.facade;
 
 import com.example.vpapi.dto.ImageDTO;
 import com.example.vpapi.dto.VideoDTO;
+import com.example.vpapi.service.ImageService;
+import com.example.vpapi.service.VideoService;
 import com.example.vpapi.util.CustomFileUtil;
 import com.example.vpapi.util.CustomMultipartFile;
 import com.example.vpapi.util.CustomServiceException;
@@ -15,13 +17,19 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class ConvertServiceImpl implements ConvertService {
+public class ConvertFacadeImpl implements ConvertFacade {
 
     @Value("${convert.server.url}")
     private String convertServerUrl;
+
+    private final VideoService videoService;
+
+    private final ImageService imageService;
 
     private final CustomFileUtil fileUtil;
 
@@ -68,6 +76,21 @@ public class ConvertServiceImpl implements ConvertService {
             log.error("Upload failed: {}", e.getMessage(), e);
             throw new CustomServiceException("FILE_UPLOAD_FAILED");
         }
+    }
+
+    @Override
+    public Map<String, Long> convertAndRegister(Long vno) {
+        VideoDTO videoDTO = videoService.get(vno);
+        ImageDTO imageDTO = uploadAndConvertFile(videoDTO);
+        Long ino = imageService.register(imageDTO);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Map.of("ino", ino);
     }
 
 }
