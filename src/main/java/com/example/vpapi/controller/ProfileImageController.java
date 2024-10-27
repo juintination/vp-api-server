@@ -24,6 +24,11 @@ public class ProfileImageController {
         return imageFacade.getProfileImage(pino);
     }
 
+    @GetMapping("/exists/member/{mno}")
+    public Map<String, Boolean> existsByMno(@PathVariable("mno") Long mno) {
+        return Map.of("RESULT", imageFacade.existsProfileImageByMno(mno));
+    }
+
     @GetMapping("/member/{mno}")
     public ProfileImageDTO getByMno(@PathVariable("mno") Long mno) {
         return imageFacade.getProfileImageByMno(mno);

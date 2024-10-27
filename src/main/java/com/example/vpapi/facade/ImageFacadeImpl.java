@@ -38,6 +38,11 @@ public class ImageFacadeImpl implements ImageFacade {
     }
 
     @Override
+    public Boolean existsProfileImageByMno(Long mno) {
+        return profileImageService.existsByMno(mno);
+    }
+
+    @Override
     public ProfileImageDTO getProfileImageByMno(Long mno) {
         return profileImageService.getByMno(mno);
     }

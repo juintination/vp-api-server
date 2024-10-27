@@ -16,6 +16,8 @@ public interface ImageFacade {
 
     ProfileImageDTO getProfileImage(Long pino);
 
+    Boolean existsProfileImageByMno(Long mno);
+
     ProfileImageDTO getProfileImageByMno(Long mno);
 
     Map<String, String> viewImage(Long ino) throws IOException;
