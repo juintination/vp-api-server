@@ -49,7 +49,7 @@ public class ProfileImageController {
         return imageFacade.viewProfileImage(mno);
     }
 
-    @GetMapping("/view/member/thumbnail/{mno}")
+    @GetMapping("/view/thumbnail/member/{mno}")
     public ResponseEntity<Resource> viewThumbnailGetByMno(@PathVariable("mno") Long mno) {
         return imageFacade.viewProfileImageThumbnail(mno);
     }
