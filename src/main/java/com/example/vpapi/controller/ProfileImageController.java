@@ -46,12 +46,12 @@ public class ProfileImageController {
 
     @GetMapping("/view/member/{mno}")
     public ResponseEntity<Resource> viewFileGetByMno(@PathVariable("mno") Long mno) {
-        return imageFacade.viewProfileImage(mno);
+        return imageFacade.viewProfileImageByMno(mno);
     }
 
     @GetMapping("/view/thumbnail/member/{mno}")
     public ResponseEntity<Resource> viewThumbnailGetByMno(@PathVariable("mno") Long mno) {
-        return imageFacade.viewProfileImageThumbnail(mno);
+        return imageFacade.viewProfileImageThumbnailByMno(mno);
     }
 
     @PostMapping("/")
