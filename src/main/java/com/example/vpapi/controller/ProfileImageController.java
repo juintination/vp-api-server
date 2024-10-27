@@ -44,6 +44,16 @@ public class ProfileImageController {
         return imageFacade.viewProfileImageThumbnail(pino);
     }
 
+    @GetMapping("/view/member/{mno}")
+    public ResponseEntity<Resource> viewFileGetByMno(@PathVariable("mno") Long mno) {
+        return imageFacade.viewProfileImage(mno);
+    }
+
+    @GetMapping("/view/member/thumbnail/{mno}")
+    public ResponseEntity<Resource> viewThumbnailGetByMno(@PathVariable("mno") Long mno) {
+        return imageFacade.viewProfileImageThumbnail(mno);
+    }
+
     @PostMapping("/")
     @PreAuthorize("#profileImageDTO.mno == authentication.principal.mno")
     public Map<String, Long> modifyProfileImage(ProfileImageDTO profileImageDTO) {

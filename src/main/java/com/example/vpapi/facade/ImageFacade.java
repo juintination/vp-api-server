@@ -28,6 +28,10 @@ public interface ImageFacade {
 
     ResponseEntity<Resource> viewProfileImageThumbnail(Long pino);
 
+    ResponseEntity<Resource> viewProfileImageByMno(Long mno);
+
+    ResponseEntity<Resource> viewProfileImageThumbnailByMno(Long mno);
+
     Map<String, Long> registerImage(ImageDTO imageDTO) throws IOException;
 
     Map<String, Long> modifyProfileImage(ProfileImageDTO profileImageDTO);

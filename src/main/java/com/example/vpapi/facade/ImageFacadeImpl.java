@@ -80,6 +80,18 @@ public class ImageFacadeImpl implements ImageFacade {
     }
 
     @Override
+    public ResponseEntity<Resource> viewProfileImageByMno(Long mno) {
+        String fileName = getProfileImageByMno(mno).getFileName();
+        return fileUtil.getFile(fileName);
+    }
+
+    @Override
+    public ResponseEntity<Resource> viewProfileImageThumbnailByMno(Long mno) {
+        String fileName = "s_" + getProfileImageByMno(mno).getFileName();
+        return fileUtil.getFile(fileName);
+    }
+
+    @Override
     public Map<String, Long> registerImage(ImageDTO imageDTO) {
         imageDTO.setFileName(saveFileAndGetFileName(imageDTO));
         Long ino = imageService.register(imageDTO);
