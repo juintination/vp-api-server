@@ -84,6 +84,12 @@ public class CustomFileUtil {
         Path filePath = Paths.get(uploadPath, fileName);
         try {
             Files.deleteIfExists(filePath);
+            String contentType = Files.probeContentType(filePath);
+            if (contentType != null && contentType.startsWith("image")) {
+                String thumbnailFileName = "s_" + fileName;
+                Path thumbnailPath = Paths.get(uploadPath, thumbnailFileName);
+                Files.deleteIfExists(thumbnailPath);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
