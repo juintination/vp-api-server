@@ -5,6 +5,7 @@ import com.example.vpapi.dto.ProfileImageDTO;
 import com.example.vpapi.service.ImageService;
 import com.example.vpapi.service.ProfileImageService;
 import com.example.vpapi.util.CustomFileUtil;
+import com.example.vpapi.util.ImageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.Resource;
@@ -141,12 +142,12 @@ public class ImageFacadeImpl implements ImageFacade {
 
     private String saveFileAndGetFileName(ImageDTO imageDTO) {
         MultipartFile file = imageDTO.getFile();
-        return fileUtil.saveFile(file);
+        return fileUtil.saveFile(file, ImageType.IMAGE);
     }
 
     private String saveFileAndGetFileName(ProfileImageDTO profileImageDTO) {
         MultipartFile file = profileImageDTO.getFile();
-        return fileUtil.saveFile(file);
+        return fileUtil.saveFile(file, ImageType.PROFILE_IMAGE);
     }
 
 }

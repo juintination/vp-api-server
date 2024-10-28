@@ -3,6 +3,7 @@ package com.example.vpapi.controller;
 import com.example.vpapi.dto.VideoDTO;
 import com.example.vpapi.service.VideoService;
 import com.example.vpapi.util.CustomFileUtil;
+import com.example.vpapi.util.ImageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.Resource;
@@ -37,7 +38,7 @@ public class VideoController {
     @PreAuthorize("#videoDTO.uno == authentication.principal.mno")
     public Map<String, Long> register(VideoDTO videoDTO) throws IOException {
         MultipartFile file = videoDTO.getFile();
-        String uploadFileName = fileUtil.saveFile(file);
+        String uploadFileName = fileUtil.saveFile(file, ImageType.IMAGE);
         videoDTO.setFileName(uploadFileName);
         log.info(uploadFileName);
         Long vno = videoService.register(videoDTO);

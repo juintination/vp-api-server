@@ -7,6 +7,7 @@ import com.example.vpapi.service.VideoService;
 import com.example.vpapi.util.CustomFileUtil;
 import com.example.vpapi.util.CustomMultipartFile;
 import com.example.vpapi.util.CustomServiceException;
+import com.example.vpapi.util.ImageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +65,7 @@ public class ConvertFacadeImpl implements ConvertFacade {
             CustomMultipartFile file = new CustomMultipartFile(responseEntity);
             log.info("File uploaded: {}", file.getOriginalFilename());
 
-            String uploadFileName = fileUtil.saveFile(file);
+            String uploadFileName = fileUtil.saveFile(file, ImageType.IMAGE);
             log.info("File converted: {}", uploadFileName);
 
             return ImageDTO.builder()
