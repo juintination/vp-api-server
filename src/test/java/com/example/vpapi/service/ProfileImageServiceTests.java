@@ -3,7 +3,6 @@ package com.example.vpapi.service;
 import com.example.vpapi.domain.MemberRole;
 import com.example.vpapi.dto.MemberDTO;
 import com.example.vpapi.dto.ProfileImageDTO;
-import com.example.vpapi.util.CustomServiceException;
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.*;
@@ -66,10 +65,10 @@ public class ProfileImageServiceTests {
     }
 
     @Test
-    public void testRemove() {
-        Long pino = 1L;
-        profileImageService.remove(pino);
-        Assertions.assertThrows(CustomServiceException.class, () -> profileImageService.get(pino));
+    public void testRemoveByMno() {
+        Long mno = 1L;
+        profileImageService.removeByMno(mno);
+        Assertions.assertFalse(profileImageService.existsByMno(mno));
     }
 
 }
