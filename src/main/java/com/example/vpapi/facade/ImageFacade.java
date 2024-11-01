@@ -40,4 +40,6 @@ public interface ImageFacade {
 
     void removeProfileImage(Long pino);
 
+    void removeProfileImageByMno(Long mno);
+
 }

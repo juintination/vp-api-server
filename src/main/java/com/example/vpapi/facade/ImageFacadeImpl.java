@@ -150,6 +150,15 @@ public class ImageFacadeImpl implements ImageFacade {
         fileUtil.deleteFile(oldFileName);
     }
 
+    @Override
+    public void removeProfileImageByMno(Long mno) {
+        if (profileImageService.existsByMno(mno)) {
+            String oldFileName = profileImageService.getByMno(mno).getFileName();
+            profileImageService.removeByMno(mno);
+            fileUtil.deleteFile(oldFileName);
+        }
+    }
+
     private String saveFileAndGetFileName(ImageDTO imageDTO) {
         MultipartFile file = imageDTO.getFile();
         return fileUtil.saveFile(file, ImageType.IMAGE);

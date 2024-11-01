@@ -61,8 +61,14 @@ public class ProfileImageController {
     }
 
     @DeleteMapping("/{pino}")
-    public Map<String, String> remove(@PathVariable(name="pino") Long pino) {
+    public Map<String, String> remove(@PathVariable("pino") Long pino) {
         imageFacade.removeProfileImage(pino);
+        return Map.of("RESULT", "SUCCESS");
+    }
+
+    @DeleteMapping("/member/{mno}")
+    public Map<String, String> removeByMno(@PathVariable("mno") Long mno) {
+        imageFacade.removeProfileImageByMno(mno);
         return Map.of("RESULT", "SUCCESS");
     }
 
