@@ -25,8 +25,8 @@ public class ProfileImageController {
     }
 
     @GetMapping("/exists/member/{mno}")
-    public Map<String, Boolean> existsByMno(@PathVariable("mno") Long mno) {
-        return Map.of("RESULT", imageFacade.existsProfileImageByMno(mno));
+    public Boolean existsByMno(@PathVariable("mno") Long mno) {
+        return imageFacade.existsProfileImageByMno(mno);
     }
 
     @GetMapping("/member/{mno}")
