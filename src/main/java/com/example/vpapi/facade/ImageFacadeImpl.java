@@ -82,14 +82,24 @@ public class ImageFacadeImpl implements ImageFacade {
 
     @Override
     public ResponseEntity<Resource> viewProfileImageByMno(Long mno) {
-        String fileName = getProfileImageByMno(mno).getFileName();
-        return fileUtil.getFile(fileName);
+        String defaultProfileImage = "cabbi.png";
+        if (existsProfileImageByMno(mno)) {
+            String fileName = getProfileImageByMno(mno).getFileName();
+            return fileUtil.getFile(fileName);
+        } else {
+            return fileUtil.getFile(defaultProfileImage);
+        }
     }
 
     @Override
     public ResponseEntity<Resource> viewProfileImageThumbnailByMno(Long mno) {
-        String fileName = "s_" + getProfileImageByMno(mno).getFileName();
-        return fileUtil.getFile(fileName);
+        String defaultProfileThumbnail = "s_cabbi.png";
+        if (existsProfileImageByMno(mno)) {
+            String fileName = "s_" + getProfileImageByMno(mno).getFileName();
+            return fileUtil.getFile(fileName);
+        } else {
+            return fileUtil.getFile(defaultProfileThumbnail);
+        }
     }
 
     @Override
