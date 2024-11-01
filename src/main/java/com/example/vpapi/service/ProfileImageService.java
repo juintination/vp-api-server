@@ -18,6 +18,8 @@ public interface ProfileImageService {
 
     void remove(Long ino);
 
+    void removeByMno(Long mno);
+
     ProfileImage dtoToEntity(ProfileImageDTO profileImageDTO);
 
     default ProfileImageDTO entityToDTO(ProfileImage profileImage, Member member) {

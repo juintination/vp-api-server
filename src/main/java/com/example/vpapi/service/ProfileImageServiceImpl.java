@@ -70,6 +70,16 @@ public class ProfileImageServiceImpl implements ProfileImageService {
     }
 
     @Override
+    public void removeByMno(Long mno) {
+        ProfileImage profileImage = profileImageRepository.findByMno(mno);
+        if (profileImage == null) {
+            throw new CustomServiceException("NOT_EXIST_IMAGE");
+        }
+        profileImage.getMember().removeProfileImageAssociation();
+        profileImageRepository.delete(profileImage);
+    }
+
+    @Override
     public ProfileImage dtoToEntity(ProfileImageDTO profileImageDTO) {
 
         if (profileImageDTO.getFileName() == null) {
