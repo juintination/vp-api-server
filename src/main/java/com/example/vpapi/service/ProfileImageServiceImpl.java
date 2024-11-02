@@ -16,6 +16,8 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
     private final ProfileImageRepository profileImageRepository;
 
+    private final MemberService memberService;
+
     @Override
     public ProfileImageDTO get(Long pino) {
         Object result = profileImageRepository.getProfileImageByPino(pino);
@@ -86,9 +88,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
             throw new NullPointerException();
         }
 
-        Member member = Member.builder()
-                .mno(profileImageDTO.getMno())
-                .build();
+        Member member = memberService.dtoToEntity(memberService.get(profileImageDTO.getMno()));
 
         return ProfileImage.builder()
                 .pino(profileImageDTO.getPino())
