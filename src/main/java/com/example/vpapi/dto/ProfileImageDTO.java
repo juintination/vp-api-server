@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,5 +19,7 @@ public class ProfileImageDTO {
     private String fileName;
 
     private MultipartFile file;
+
+    private LocalDateTime regDate, modDate;
 
 }

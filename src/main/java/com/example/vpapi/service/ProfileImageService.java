@@ -30,8 +30,10 @@ public interface ProfileImageService {
 
         return ProfileImageDTO.builder()
                 .pino(profileImage.getPino())
-                .fileName(profileImage.getFileName())
                 .mno(member.getMno())
+                .regDate(profileImage.getRegDate())
+                .modDate(profileImage.getModDate())
+                .fileName(profileImage.getFileName())
                 .build();
     }
 
