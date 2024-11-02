@@ -1,7 +1,7 @@
 package com.example.vpapi.controller;
 
 import com.example.vpapi.dto.ProfileImageDTO;
-import com.example.vpapi.service.UnifiedImageService;
+import com.example.vpapi.service.adapter.UnifiedImageServiceAdapter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
@@ -16,62 +16,62 @@ import java.util.Map;
 @RequestMapping("/api/profile/images")
 public class ProfileImageController {
 
-    private final UnifiedImageService unifiedImageService;
+    private final UnifiedImageServiceAdapter unifiedImageServiceAdapter;
 
-    public ProfileImageController(@Qualifier("profileImageServiceAdapter") UnifiedImageService unifiedImageService) {
-        this.unifiedImageService = unifiedImageService;
+    public ProfileImageController(@Qualifier("profileImageServiceAdapter") UnifiedImageServiceAdapter unifiedImageServiceAdapter) {
+        this.unifiedImageServiceAdapter = unifiedImageServiceAdapter;
     }
 
     @GetMapping("/{pino}")
     public ProfileImageDTO get(@PathVariable("pino") Long pino) {
-        return unifiedImageService.getProfileImage(pino);
+        return unifiedImageServiceAdapter.getProfileImage(pino);
     }
 
     @GetMapping("/exists/member/{mno}")
     public Boolean existsByMno(@PathVariable("mno") Long mno) {
-        return unifiedImageService.existsProfileImageByMno(mno);
+        return unifiedImageServiceAdapter.existsProfileImageByMno(mno);
     }
 
     @GetMapping("/member/{mno}")
     public ProfileImageDTO getByMno(@PathVariable("mno") Long mno) {
-        return unifiedImageService.getProfileImageByMno(mno);
+        return unifiedImageServiceAdapter.getProfileImageByMno(mno);
     }
 
     @GetMapping("/view/{pino}")
     public ResponseEntity<Resource> viewFileGET(@PathVariable("pino") Long pino) {
-        return unifiedImageService.viewProfileImage(pino);
+        return unifiedImageServiceAdapter.viewProfileImage(pino);
     }
 
     @GetMapping("/view/thumbnail/{pino}")
     public ResponseEntity<Resource> viewThumbnailGET(@PathVariable("pino") Long pino) {
-        return unifiedImageService.viewProfileImageThumbnail(pino);
+        return unifiedImageServiceAdapter.viewProfileImageThumbnail(pino);
     }
 
     @GetMapping("/view/member/{mno}")
     public ResponseEntity<Resource> viewFileGetByMno(@PathVariable("mno") Long mno) {
-        return unifiedImageService.viewProfileImageByMno(mno);
+        return unifiedImageServiceAdapter.viewProfileImageByMno(mno);
     }
 
     @GetMapping("/view/thumbnail/member/{mno}")
     public ResponseEntity<Resource> viewThumbnailGetByMno(@PathVariable("mno") Long mno) {
-        return unifiedImageService.viewProfileImageThumbnailByMno(mno);
+        return unifiedImageServiceAdapter.viewProfileImageThumbnailByMno(mno);
     }
 
     @PostMapping("/")
     @PreAuthorize("#profileImageDTO.mno == authentication.principal.mno")
     public Map<String, Long> modifyProfileImage(ProfileImageDTO profileImageDTO) {
-        return unifiedImageService.modifyProfileImage(profileImageDTO);
+        return unifiedImageServiceAdapter.modifyProfileImage(profileImageDTO);
     }
 
     @DeleteMapping("/{pino}")
     public Map<String, String> remove(@PathVariable("pino") Long pino) {
-        unifiedImageService.removeProfileImage(pino);
+        unifiedImageServiceAdapter.removeProfileImage(pino);
         return Map.of("RESULT", "SUCCESS");
     }
 
     @DeleteMapping("/member/{mno}")
     public Map<String, String> removeByMno(@PathVariable("mno") Long mno) {
-        unifiedImageService.removeProfileImageByMno(mno);
+        unifiedImageServiceAdapter.removeProfileImageByMno(mno);
         return Map.of("RESULT", "SUCCESS");
     }
 

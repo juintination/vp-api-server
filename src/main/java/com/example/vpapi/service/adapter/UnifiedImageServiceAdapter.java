@@ -1,4 +1,4 @@
-package com.example.vpapi.service;
+package com.example.vpapi.service.adapter;
 
 import com.example.vpapi.dto.ImageDTO;
 import com.example.vpapi.dto.ProfileImageDTO;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Transactional
-public interface UnifiedImageService {
+public interface UnifiedImageServiceAdapter {
 
     ImageDTO getImage(Long ino);
 

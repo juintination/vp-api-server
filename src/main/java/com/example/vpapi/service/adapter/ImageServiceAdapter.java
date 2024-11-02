@@ -3,7 +3,6 @@ package com.example.vpapi.service.adapter;
 import com.example.vpapi.dto.ImageDTO;
 import com.example.vpapi.dto.ProfileImageDTO;
 import com.example.vpapi.service.ImageService;
-import com.example.vpapi.service.UnifiedImageService;
 import com.example.vpapi.util.CustomFileUtil;
 import com.example.vpapi.util.ImageType;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.Map;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class ImageServiceAdapter implements UnifiedImageService {
+public class ImageServiceAdapter implements UnifiedImageServiceAdapter {
 
     private final ImageService imageService;
 
