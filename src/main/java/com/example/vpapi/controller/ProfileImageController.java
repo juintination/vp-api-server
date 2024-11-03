@@ -70,6 +70,7 @@ public class ProfileImageController {
     }
 
     @DeleteMapping("/member/{mno}")
+    @PreAuthorize("#mno == authentication.principal.mno")
     public Map<String, String> removeByMno(@PathVariable("mno") Long mno) {
         unifiedImageServiceAdapter.removeProfileImageByMno(mno);
         return Map.of("RESULT", "SUCCESS");
