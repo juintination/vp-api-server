@@ -60,7 +60,7 @@ public class ProfileImageController {
     @PostMapping("/")
     @PreAuthorize("#profileImageDTO.mno == authentication.principal.mno")
     public Map<String, Long> modifyProfileImage(ProfileImageDTO profileImageDTO) {
-        return unifiedImageServiceAdapter.modifyProfileImage(profileImageDTO);
+        return unifiedImageServiceAdapter.registerProfileImage(profileImageDTO);
     }
 
     @DeleteMapping("/{pino}")

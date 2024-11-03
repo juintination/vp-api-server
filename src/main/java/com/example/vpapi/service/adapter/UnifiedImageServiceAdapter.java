@@ -34,7 +34,7 @@ public interface UnifiedImageServiceAdapter {
 
     Map<String, Long> registerImage(ImageDTO imageDTO) throws IOException;
 
-    Map<String, Long> modifyProfileImage(ProfileImageDTO profileImageDTO);
+    Map<String, Long> registerProfileImage(ProfileImageDTO profileImageDTO);
 
     void removeImage(Long ino);
 

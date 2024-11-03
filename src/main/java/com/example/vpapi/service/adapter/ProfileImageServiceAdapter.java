@@ -93,7 +93,7 @@ public class ProfileImageServiceAdapter implements UnifiedImageServiceAdapter {
     }
 
     @Override
-    public Map<String, Long> modifyProfileImage(ProfileImageDTO profileImageDTO) {
+    public Map<String, Long> registerProfileImage(ProfileImageDTO profileImageDTO) {
         if (profileImageService.existsByMno(profileImageDTO.getMno())) {
             ProfileImageDTO existingProfileImage = profileImageService.getByMno(profileImageDTO.getMno());
             fileUtil.deleteFile(existingProfileImage.getFileName());

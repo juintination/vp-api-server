@@ -86,7 +86,7 @@ public class ImageServiceAdapter implements UnifiedImageServiceAdapter {
     }
 
     @Override
-    public Map<String, Long> registerImage(ImageDTO imageDTO) throws IOException {
+    public Map<String, Long> registerImage(ImageDTO imageDTO) {
         imageDTO.setFileName(saveFileAndGetFileName(imageDTO));
         Long ino = imageService.register(imageDTO);
 
@@ -100,7 +100,7 @@ public class ImageServiceAdapter implements UnifiedImageServiceAdapter {
     }
 
     @Override
-    public Map<String, Long> modifyProfileImage(ProfileImageDTO profileImageDTO) {
+    public Map<String, Long> registerProfileImage(ProfileImageDTO profileImageDTO) {
         throw new UnsupportedOperationException("Not supported by ImageService");
     }
 
